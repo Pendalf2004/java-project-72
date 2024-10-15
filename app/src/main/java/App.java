@@ -13,14 +13,19 @@ public class App {
 
     public static void main(String[] args) {
         var page = getApp();
-        page.start();
+        page.start(getPort());
     }
 
     private static TemplateEngine createTemplateEngine() {
         CodeResolver codeResolver =
-                new DirectoryCodeResolver(Path.of(System.getProperty("user.dir") + "/app/src/main/java/jte/"));
+                new DirectoryCodeResolver(Path.of(System.getProperty("user.dir") + "/src/main/java/jte/"));
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
         return templateEngine;
+    }
+
+    private static int getPort() {
+        String port = System.getenv().getOrDefault("PORT", "7070");
+        return Integer.valueOf(port);
     }
 
     public static Javalin getApp() {
@@ -28,7 +33,6 @@ public class App {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
-
 
         renderPage.get(NamedRoutes.root(), Controller::showRoot);
 
