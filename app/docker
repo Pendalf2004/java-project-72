@@ -2,4 +2,5 @@ FROM gradle:7.2.0-jdk17
 
 WORKDIR /app
 
+
 CMD java -jar app-1.0-SNAPSHOT-all.jar
