@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY /app .
 
-CMD .app-1.0-SNAPSHOT-all
+CMD java -jar app-1.0-SNAPSHOT-all.jar
