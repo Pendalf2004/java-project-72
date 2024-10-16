@@ -1,0 +1,9 @@
+FROM gradle:9.0-jdk21
+
+WORKDIR /app
+
+COPY /app .
+
+RUN gradle shadowJar
+
+CMD .app-1.0-SNAPSHOT-all
