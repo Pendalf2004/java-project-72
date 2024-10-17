@@ -1,8 +1,6 @@
 FROM eclipse-temurin:23-jdk-noble
 
-WORKDIR /app
-
 ENV JAVA_OPTS "-Xmx512M -Xms512M"
 EXPOSE 7070
 
-CMD java -jar ./app-1.0-SNAPSHOT-all.jar
+CMD java -jar ./build/app-1.0-SNAPSHOT-all.jar
