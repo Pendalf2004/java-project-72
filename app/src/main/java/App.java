@@ -1,8 +1,9 @@
-import Controller.Controller;
+import controller.Controller;
 import gg.jte.CodeResolver;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.DirectoryCodeResolver;
+import gg.jte.resolve.ResourceCodeResolver;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import utils.NamedRoutes;
@@ -17,8 +18,8 @@ public class App {
     }
 
     private static TemplateEngine createTemplateEngine() {
-        CodeResolver codeResolver =
-                new DirectoryCodeResolver(Path.of(System.getProperty("user.dir") + "/src/main/java/jte/"));
+        ClassLoader classLoader = App.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates/jte", classLoader);
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
         return templateEngine;
     }
