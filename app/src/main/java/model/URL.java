@@ -16,5 +16,4 @@ public class URL {
     Long    id;
     String  url;
     Date    created;
-
 }
