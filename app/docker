@@ -1,3 +1,0 @@
-FROM eclipse-temurin:21-jdk
-
-CMD ./app/app-1.0-SNAPSHOT-all.jar
