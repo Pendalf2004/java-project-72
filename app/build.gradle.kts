@@ -40,6 +40,6 @@ tasks.test {
 
 
 tasks.shadowJar{
-    destinationDirectory.set(file(System.getProperty("user.dir") + "/build/"))
+    destinationDirectory.set(file(System.getProperty("user.dir")))
 }
 
