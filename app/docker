@@ -15,6 +15,5 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
-RUN gradle shadowJar
 
-CMD java -jar build/app-1.0-SNAPSHOT-all.jar
+CMD java -jar /app/build/app-1.0-SNAPSHOT-all.jar
