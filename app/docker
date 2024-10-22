@@ -15,7 +15,4 @@ RUN mv gradle-${GRADLE_VERSION} ${GRADLE_HOME}
 
 ENV PATH=$PATH:$GRADLE_HOME/bin
 
-RUN gradle installDist
-
-CMD build/install/app/bin/app
 CMD java -jar build/app-1.0-SNAPSHOT-all.jar
