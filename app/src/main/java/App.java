@@ -6,13 +6,18 @@ import gg.jte.resolve.DirectoryCodeResolver;
 import gg.jte.resolve.ResourceCodeResolver;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
+import lombok.SneakyThrows;
+import utils.DB;
 import utils.NamedRoutes;
 
 import java.nio.file.Path;
+import java.sql.SQLException;
 
 public class App {
 
+    @SneakyThrows
     public static void main(String[] args) {
+        DB.createDB();
         var page = getApp();
         page.start(getPort());
     }
@@ -36,6 +41,7 @@ public class App {
         });
 
         renderPage.get(NamedRoutes.root(), Controller::showRoot);
+        renderPage.post(NamedRoutes.root(), Controller::getNewURL);
 
         return renderPage;
     }
