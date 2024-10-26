@@ -1,23 +1,19 @@
-import controller.Controller;
-import gg.jte.CodeResolver;
+import controller.RootController;
+import controller.URLController;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
-import gg.jte.resolve.DirectoryCodeResolver;
 import gg.jte.resolve.ResourceCodeResolver;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.SneakyThrows;
-import utils.DB;
+import repository.URLRepository;
 import utils.NamedRoutes;
-
-import java.nio.file.Path;
-import java.sql.SQLException;
 
 public class App {
 
     @SneakyThrows
     public static void main(String[] args) {
-        DB.createDB();
+        URLRepository.createDB();
         var page = getApp();
         page.start(getPort());
     }
@@ -34,15 +30,18 @@ public class App {
         return Integer.valueOf(port);
     }
 
+    @SneakyThrows
     public static Javalin getApp() {
         var renderPage = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
+            URLRepository.createDB();
 
-        renderPage.get(NamedRoutes.root(), Controller::showRoot);
-        renderPage.post(NamedRoutes.root(), Controller::getNewURL);
-
+        renderPage.get(NamedRoutes.root(), RootController::showRoot);
+        renderPage.post(NamedRoutes.root(), RootController::getNewURL);
+        renderPage.get(NamedRoutes.urlList(), URLController::showList);
+        renderPage.get(NamedRoutes.urlPath("{id}"), URLController::showURL);
         return renderPage;
     }
 }
