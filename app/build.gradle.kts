@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id("java")
     id ("checkstyle")
@@ -33,12 +36,27 @@ dependencies {
 
     implementation("com.h2database:h2:2.2.220")
     implementation("com.zaxxer:HikariCP:6.0.0")
+    implementation("org.postgresql:postgresql:42.2.5")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events = mutableSetOf(TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED)
+        showStackTraces = true
+        showCauses = true
+        showStandardStreams = true
+    }
 }
 
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+    }
+}
 
 tasks.shadowJar{
     destinationDirectory.set(file(System.getProperty("user.dir")))

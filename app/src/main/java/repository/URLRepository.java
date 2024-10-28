@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class URLRepository extends BaseDB{
-    private static List<UrlModel> URLS = new ArrayList<UrlModel>();
+    protected static List<UrlModel> URLS = new ArrayList<UrlModel>();
 
     @SneakyThrows
     public static void add(UrlModel url) {
@@ -77,9 +77,8 @@ public class URLRepository extends BaseDB{
     public static void createDB() throws SQLException {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDbConfig());
-        hikariConfig.addDataSourceProperty("useSSL",false);
+        //hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         dataConfig = new HikariDataSource(hikariConfig);
-        //dataConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         var createURLTable =
                 "DROP TABLE IF EXISTS urls;" +
                         "CREATE TABLE urls " +
