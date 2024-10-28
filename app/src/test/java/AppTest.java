@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import io.javalin.testtools.JavalinTest;
 import repository.URLRepository;
 import utils.NamedRoutes;
