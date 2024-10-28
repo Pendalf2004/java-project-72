@@ -12,12 +12,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class URLRepository extends BaseDB{
-    protected static List<UrlModel> URLS = new ArrayList<UrlModel>();
+public class URLRepository extends BaseDB {
+    protected static List<UrlModel> urls = new ArrayList<UrlModel>();
 
     @SneakyThrows
     public static void add(UrlModel url) {
-        url.setId((long) URLS.size() + 1);
+        url.setId((long) urls.size() + 1);
         Date date = new Date();
         url.setCreated(date);
         addURL(url);
@@ -36,7 +36,7 @@ public class URLRepository extends BaseDB{
             } else {
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }
-            URLS.add(url);
+            urls.add(url);
         }
     }
 
@@ -80,11 +80,11 @@ public class URLRepository extends BaseDB{
         //hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         dataConfig = new HikariDataSource(hikariConfig);
         var createURLTable =
-                "DROP TABLE IF EXISTS urls;" +
-                        "CREATE TABLE urls " +
-                        "(id        BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-                        "address       VARCHAR(255), " +
-                        "created_at TIMESTAMP NOT NULL DEFAULT NOW());";
+                "DROP TABLE IF EXISTS urls;"
+                        + "CREATE TABLE urls "
+                        + "(id        BIGINT PRIMARY KEY AUTO_INCREMENT, "
+                        + "address       VARCHAR(255), "
+                        + "created_at TIMESTAMP NOT NULL DEFAULT NOW());";
 
         try (var connection = dataConfig.getConnection();
              var statement = connection.createStatement()) {
@@ -98,7 +98,7 @@ public class URLRepository extends BaseDB{
     }
 
     public static List<UrlModel> findByName(String address) {
-        return URLS.stream()
+        return urls.stream()
                 .filter(entity -> entity.getAddress().contains(address))
                 .toList();
     }

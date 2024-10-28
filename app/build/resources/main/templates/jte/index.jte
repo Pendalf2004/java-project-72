@@ -1,4 +1,4 @@
-@import DataTemplate.Paths.RootPage
+@import datatemplate.paths.RootPage
 @import utils.NamedRoutes
 @param  RootPage data
 

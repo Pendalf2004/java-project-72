@@ -1,4 +1,4 @@
-package DataTemplate;
+package datatemplate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

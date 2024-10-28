@@ -27,7 +27,7 @@ public class App {
 
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "7070");
-        return Integer.valueOf(port);
+        return Integer.parseInt(port);
     }
 
     @SneakyThrows
@@ -36,7 +36,7 @@ public class App {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
-            URLRepository.createDB();
+        URLRepository.createDB();
 
         renderPage.get(NamedRoutes.root(), RootController::showRoot);
         renderPage.post(NamedRoutes.root(), RootController::getNewURL);

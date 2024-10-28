@@ -1,7 +1,7 @@
 package controller;
 
-import DataTemplate.Paths.ListPage;
-import DataTemplate.Paths.UrlPage;
+import datatemplate.paths.ListPage;
+import datatemplate.paths.UrlPage;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import repository.URLRepository;

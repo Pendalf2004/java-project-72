@@ -1,6 +1,6 @@
 package controller;
 
-import DataTemplate.Paths.RootPage;
+import datatemplate.paths.RootPage;
 import io.javalin.http.Context;
 import lombok.SneakyThrows;
 import model.UrlModel;
@@ -24,23 +24,22 @@ public class RootController {
     }
 
     @SneakyThrows
-    public static void getNewURL (Context ctx) {
+    public static void getNewURL(Context ctx) {
         String address;
         String message = "";
         try {
             URI uriPath = new URI(ctx.formParam("url"));
             URL urlAddress = uriPath.toURL();
-            String urlPath = uriPath.getScheme() + "://" +
-                    uriPath.getAuthority();
-            if(URLRepository.findByName(urlPath).isEmpty()) {
+            String urlPath = uriPath.getScheme() + "://"
+                    + uriPath.getAuthority();
+            if (URLRepository.findByName(urlPath).isEmpty()) {
                 URLRepository.addURL(new UrlModel(urlPath));
                 message = "Страница успешно добавлена";
             } else {
                 message = "Страница уже существует";
             }
 
-        } catch (
-                URISyntaxException | MalformedURLException | NullPointerException | IllegalArgumentException e) {
+        } catch (URISyntaxException | MalformedURLException | NullPointerException | IllegalArgumentException e) {
             message = "Некорректный URL";
         } finally {
             ctx.sessionAttribute("msg", message);

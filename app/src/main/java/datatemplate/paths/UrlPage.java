@@ -1,6 +1,6 @@
-package DataTemplate.Paths;
+package datatemplate.paths;
 
-import DataTemplate.BasePage;
+import datatemplate.BasePage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import model.UrlModel;

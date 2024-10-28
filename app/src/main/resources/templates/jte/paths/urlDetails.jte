@@ -1,4 +1,4 @@
-@import DataTemplate.Paths.UrlPage
+@import datatemplate.paths.UrlPage
 @import utils.NamedRoutes
 @param UrlPage urlDetails
 @template.layout.template(

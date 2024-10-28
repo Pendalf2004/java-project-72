@@ -1,9 +1,10 @@
-@import DataTemplate.Paths.ListPage
+@import datatemplate.paths.ListPage
 @import utils.NamedRoutes
 @param  ListPage urlListData
 
 @template.layout.template(
 content = @`
+    <main>
     <h2>Список страниц</h2>
     <hr>
         ${urlListData.getMsg()}
