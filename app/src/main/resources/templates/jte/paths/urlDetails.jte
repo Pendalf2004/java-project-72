@@ -23,6 +23,10 @@ content = @`
             </tbody>
         </table>
         <hr>
+            <form action="${NamedRoutes.checkPath(urlDetails.getUrl().getId())}" method="post">
+                <input type="submit" value="Send" />
+            </form>
+        <hr>
         <a href="${NamedRoutes.root()}">На главную</a>  <a href="${NamedRoutes.urlList()}">К списку</a>
     </div>
 `

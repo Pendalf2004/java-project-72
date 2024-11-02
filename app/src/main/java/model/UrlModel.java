@@ -14,8 +14,10 @@ import java.util.Date;
 
 public class UrlModel {
     private Long    id;
-    private String address;
+    private String  address;
     private Date    created;
+    private Date    lastCheckTime;
+    private Integer statusCode;
 
     public UrlModel(String address) {
         this.address = address;

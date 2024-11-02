@@ -37,6 +37,11 @@ dependencies {
     implementation("com.h2database:h2:2.2.220")
     implementation("com.zaxxer:HikariCP:6.0.0")
     implementation("org.postgresql:postgresql:42.2.5")
+
+    implementation("com.konghq:unirest-java:4.0.0-RC2")
+    implementation("com.konghq:unirest-objectmapper-jackson:4.2.9")
+
+    implementation("org.jsoup:jsoup:1.18.1")
 }
 
 tasks.test {

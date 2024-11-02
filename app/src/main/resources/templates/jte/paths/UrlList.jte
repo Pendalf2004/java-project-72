@@ -14,6 +14,8 @@ content = @`
                 <tr>
                     <th>ID</th>
                     <th>Имя</th>
+                    <th>Последняя проверка</th>
+                    <th>Код ответа</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +26,14 @@ content = @`
                     </td>
                     <td>
                         <a href="${NamedRoutes.urlPath(url.getId())}">${url.getAddress()}</a>
+                    </td>
+                    <td>
+                        @if(url.getLastCheckTime() != null)
+                            ${url.getLastCheckTime().toString()}
+                        @endif
+                    </td>
+                    <td>
+                        ${url.getStatusCode()}
                     </td>
                     @endfor
                 </tr>

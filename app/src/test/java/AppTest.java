@@ -9,7 +9,8 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import io.javalin.testtools.JavalinTest;
-import repository.URLRepository;
+import repository.UrlRepository;
+import utils.DBUtils;
 import utils.NamedRoutes;
 
 class AppTest {
@@ -17,6 +18,7 @@ class AppTest {
 
     @BeforeEach
     public final void setUp() throws IOException, SQLException {
+        DBUtils.createDB();
         app = App.getApp();
     }
 
@@ -41,7 +43,7 @@ class AppTest {
     @Test
     public void testUrlDetailesPage() {
         var testURL = new UrlModel("https://ya.ru/");
-        URLRepository.addURL(testURL);
+        UrlRepository.addURL(testURL);
         JavalinTest.test(app, (server, client) -> {
             var response = client.get(NamedRoutes.urlPath(Long.valueOf(1)));
             assertThat(response.code()).isEqualTo(200);

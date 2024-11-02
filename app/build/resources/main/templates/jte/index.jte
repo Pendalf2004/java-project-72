@@ -18,7 +18,7 @@
                             <input type="text" name="url" />
                         </label>
                     </div>
-                    <input type="submit" value="Send" />
+                    <input type="submit" value="Добавить адрес страницы" />
                 </form>
                 <hr>
         </div>
