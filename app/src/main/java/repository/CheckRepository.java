@@ -24,7 +24,7 @@ public class CheckRepository extends BaseDB{
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 check.setId(generatedKeys.getLong(1));
-                check.setCreatedAt(generatedKeys.getDate(2));
+                check.setCreatedAt(generatedKeys.getTimestamp(2));
             } else {
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }
@@ -33,19 +33,21 @@ public class CheckRepository extends BaseDB{
     }
 
     public static List<CheckModel> findAllByUrlId(Long urlId) throws SQLException {
-        String sql = "SELECT * FROM urls" +
-                "WHERE url_id = " + urlId + ";";
+        String query = "SELECT * FROM UrlCheck " +
+                "WHERE urlId = " + urlId +
+                "ORDER BY id DESC;";
         try (var conn = dataConfig.getConnection();
-            var preparedStatement = conn.prepareStatement(sql)) {
+            var preparedStatement = conn.prepareStatement(query)) {
             var checksList = preparedStatement.executeQuery();
             var result = new ArrayList<CheckModel>();
             while (checksList.next()) {
-                var check = new CheckModel(checksList.getLong("url_id"));
+                var check = new CheckModel(checksList.getLong("urlId"));
                 check.setId(checksList.getLong("id"));
                 check.setTitle(checksList.getString("title"));
                 check.setH1(checksList.getString("h1"));
                 check.setDescription(checksList.getString("description"));
                 check.setStatusCode(checksList.getInt("statusCode"));
+                check.setCreatedAt(checksList.getTimestamp("created_at"));
                 result.add(check);
             }
             return result;

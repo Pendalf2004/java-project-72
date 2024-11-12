@@ -15,9 +15,9 @@ public class UrlRepository extends BaseDB {
 
 
     public static void addURL(UrlModel url) throws SQLException {
-        String sql = "INSERT INTO urls (address) VALUES (?)";
+        String query = "INSERT INTO urls (address) VALUES (?)";
         try (var conn = dataConfig.getConnection();
-             var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getAddress());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
@@ -33,14 +33,14 @@ public class UrlRepository extends BaseDB {
 
     @SneakyThrows
     public static Optional<UrlModel> findById(Long id) {
-        String sql = "SELECT * FROM urls WHERE id = ?";
+        String query = "SELECT * FROM urls WHERE id = ?";
         try (var conn = dataConfig.getConnection();
-             var preparedStatement = conn.prepareStatement(sql)) {
+             var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
-            var queryResult = preparedStatement.executeQuery();
-            if (queryResult.next()) {
-                var url = new UrlModel(queryResult.getString("address"));
-                url.setCreated(queryResult.getTimestamp("created_at"));
+            var urlList = preparedStatement.executeQuery();
+            if (urlList.next()) {
+                var url = new UrlModel(urlList.getString("address"));
+                url.setCreated(urlList.getTimestamp("created_at"));
                 url.setId(id);
                 return Optional.of(url);
             }
@@ -49,9 +49,9 @@ public class UrlRepository extends BaseDB {
     }
 
     public static List<UrlModel> getAll() throws SQLException {
-        String sql = "SELECT * FROM urls;";
+        String query = "SELECT * FROM urls;";
         try (var conn = dataConfig.getConnection();
-            var preparedStatement = conn.prepareStatement(sql)) {
+            var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
             var result = new ArrayList<UrlModel>();
             while (urlList.next()) {
@@ -72,7 +72,7 @@ public class UrlRepository extends BaseDB {
 
     public static List<UrlModel> withLatestCheck() {
         var result = new ArrayList<UrlModel>();
-        String sql = "SELECT DISTINCT ON (urls.id)" +
+        String query = "SELECT DISTINCT ON (urls.id)" +
                 "                    urls.id, " +
                 "                    urls.address, " +
                 "                    urls.created_at AS created, " +
@@ -83,7 +83,7 @@ public class UrlRepository extends BaseDB {
                 "                    (UrlCheck.urlId = urls.id)" +
                 "                ORDER BY urls.created_at ASC;";
         try (var conn = dataConfig.getConnection();
-            var preparedStatement = conn.prepareStatement(sql)) {
+            var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
             while (urlList.next()) {
                 var url = new UrlModel(urlList.getString("address"));

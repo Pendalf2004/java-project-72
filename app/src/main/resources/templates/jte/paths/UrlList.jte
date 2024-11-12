@@ -1,4 +1,5 @@
 @import datatemplate.paths.ListPage
+@import repository.UrlRepository
 @import utils.NamedRoutes
 @param  ListPage urlListData
 
@@ -9,7 +10,7 @@ content = @`
     <hr>
         ${urlListData.getMsg()}
         @if(urlListData != null)
-            <table>
+            <table class="w-75 p-3">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -29,7 +30,7 @@ content = @`
                     </td>
                     <td>
                         @if(url.getLastCheckTime() != null)
-                            ${url.getLastCheckTime().toString()}
+                            ${UrlRepository.getTime(url.getLastCheckTime())}
                         @endif
                     </td>
                     <td>

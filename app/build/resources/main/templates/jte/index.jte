@@ -5,20 +5,22 @@
 @template.layout.template(
     content = @`
         @if(data != null && data.getMsg() != null)
-            <p>${data.getMsg()}</p>
+           <div class="alert alert-primary" role="alert">
+               <p>${data.getMsg()}</p>
+           </div>
         @endif
         <main>
-        <div class="mx-auto p-4 py-md-5">
+        <div class="p-2 m-2">
                 <h2>Hello world</h2>
                 <hr>
                 <form action="${utils.NamedRoutes.root()}" method="post">
                     <div>
-                        <label>
+                        <label for="urlInput" class="form-label">
                             Имя
-                            <input type="text" name="url" />
+                            <input class="form-control" id="urlInput" aria-describedby="emailHelp" type="url" name="url" />
                         </label>
                     </div>
-                    <input type="submit" value="Добавить адрес страницы" />
+                    <input type="submit" class="btn btn-primary" value="Добавить адрес страницы" />
                 </form>
                 <hr>
         </div>
