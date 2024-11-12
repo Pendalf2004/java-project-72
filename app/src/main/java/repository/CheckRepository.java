@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckRepository extends BaseDB{
+public class CheckRepository extends BaseDB {
     protected static List<CheckModel> checks = new ArrayList<CheckModel>();
 
     public static void addCheck(CheckModel check) throws SQLException {
@@ -29,13 +29,13 @@ public class CheckRepository extends BaseDB{
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }
             checks.add(check);
-            }
+        }
     }
 
     public static List<CheckModel> findAllByUrlId(Long urlId) throws SQLException {
-        String query = "SELECT * FROM UrlCheck " +
-                "WHERE urlId = " + urlId +
-                "ORDER BY id DESC;";
+        String query = "SELECT * FROM UrlCheck "
+                + "WHERE urlId = " + urlId
+                + "ORDER BY id DESC;";
         try (var conn = dataConfig.getConnection();
             var preparedStatement = conn.prepareStatement(query)) {
             var checksList = preparedStatement.executeQuery();

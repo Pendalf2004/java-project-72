@@ -7,10 +7,8 @@ import model.UrlModel;
 import repository.UrlRepository;
 import utils.NamedRoutes;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.SQLException;
 
 import static io.javalin.rendering.template.TemplateUtil.model;

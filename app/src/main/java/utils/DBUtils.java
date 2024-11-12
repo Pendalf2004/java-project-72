@@ -7,7 +7,9 @@ import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
 import repository.UrlRepository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -36,17 +38,15 @@ public class DBUtils {
         String query = "";
         try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("DBCreationQuery")) {
             query = new BufferedReader(new InputStreamReader(queryFile))
-                .lines().collect(Collectors.joining("\n"));}
-        finally {
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+        } finally {
             try (var connection = dataConfig.getConnection();
                  var statement = connection.createStatement()) {
                 statement.execute(query);
-            }
-            finally {
+            } finally {
                 UrlRepository.dataConfig = dataConfig;
-                //CheckRepository.dataConfig = dataConfig;
-        }
-
+            }
         }
     }
 

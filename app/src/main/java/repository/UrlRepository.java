@@ -72,16 +72,16 @@ public class UrlRepository extends BaseDB {
 
     public static List<UrlModel> withLatestCheck() {
         var result = new ArrayList<UrlModel>();
-        String query = "SELECT DISTINCT ON (urls.id)" +
-                "                    urls.id, " +
-                "                    urls.address, " +
-                "                    urls.created_at AS created, " +
-                "                    UrlCheck.created_at AS last_check, " +
-                "                    UrlCheck.statusCode  AS status_code" +
-                "                FROM urls " +
-                "                LEFT JOIN UrlCheck ON " +
-                "                    (UrlCheck.urlId = urls.id)" +
-                "                ORDER BY urls.created_at ASC;";
+        String query = "SELECT DISTINCT ON (urls.id)"
+                + "                    urls.id, "
+                + "                    urls.address, "
+                + "                    urls.created_at AS created, "
+                + "                    UrlCheck.created_at AS last_check, "
+                + "                    UrlCheck.statusCode  AS status_code"
+                + "                FROM urls "
+                + "                LEFT JOIN UrlCheck ON "
+                + "                    (UrlCheck.urlId = urls.id)"
+                + "                ORDER BY urls.created_at ASC;";
         try (var conn = dataConfig.getConnection();
             var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();

@@ -33,8 +33,7 @@ public class ChecksController {
             CheckRepository.addCheck(check);
         } catch (Exception e) {
             throw new UnirestException(e.getMessage(), e);
-        }
-        finally {
+        } finally {
             ctx.redirect(NamedRoutes.urlPath(urlId));
         }
     }
