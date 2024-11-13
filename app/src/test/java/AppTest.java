@@ -1,5 +1,6 @@
 import io.javalin.Javalin;
 import lombok.SneakyThrows;
+import model.CheckModel;
 import model.UrlModel;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -95,7 +95,7 @@ class AppTest {
             UrlRepository.addURL(test);
             JavalinTest.test(app, (server, client) -> {
                 client.post(NamedRoutes.checkPath(test.getId()));
-                var check = CheckRepository.findAllByUrlId(test.getId()).getFirst();
+                CheckModel check = CheckRepository.findAllByUrlId(test.getId()).getFirst();
 
                 assertThat(check.getStatusCode()).isEqualTo(200);
                 assertThat(check.getTitle()).isEqualTo("Test title");
