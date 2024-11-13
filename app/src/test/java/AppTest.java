@@ -93,7 +93,7 @@ class AppTest {
 
             var test = new UrlModel(page);
             UrlRepository.addURL(test);
-            JavalinTest.test(app, (server, client) -> {
+            JavalinTest.test(app, ((server, client) -> {
                 client.post(NamedRoutes.checkPath(test.getId()));
                 var check = CheckRepository.findAllByUrlId(test.getId()).getFirst();
 
@@ -101,7 +101,7 @@ class AppTest {
                 assertThat(check.getTitle()).isEqualTo("Test title");
                 assertThat(check.getH1()).isEqualTo("Test header");
                 assertThat(check.getDescription()).isEqualTo("test description");
-            });
+            }));
         }
     }
 
