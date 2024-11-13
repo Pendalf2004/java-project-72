@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +23,6 @@ import utils.NamedRoutes;
 class AppTest {
     Javalin app;
     private static final String RES_FOLDER = System.getProperty("user.dir") + "/src/test/resources/";
-
 
     private static String readHTML(String fileName) throws IOException {
         return Files.readString(Path.of(RES_FOLDER + fileName));
@@ -93,7 +93,7 @@ class AppTest {
 
             var test = new UrlModel(page);
             UrlRepository.addURL(test);
-            JavalinTest.test(app, ((server, client) -> {
+            JavalinTest.test(app, (server, client) -> {
                 client.post(NamedRoutes.checkPath(test.getId()));
                 var check = CheckRepository.findAllByUrlId(test.getId()).getFirst();
 
@@ -101,7 +101,7 @@ class AppTest {
                 assertThat(check.getTitle()).isEqualTo("Test title");
                 assertThat(check.getH1()).isEqualTo("Test header");
                 assertThat(check.getDescription()).isEqualTo("test description");
-            }));
+            });
         }
     }
 
