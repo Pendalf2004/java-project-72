@@ -29,7 +29,7 @@ public class ChecksController {
             Document document = Jsoup.parse(responseBody);
             check.setTitle(document.title());
             check.setH1(document.select("h1").text());
-            check.setDescription(document.select("meta[name=description]").attr("content"));
+            check.setDescription(document.select("meta").attr("content"));
             CheckRepository.addCheck(check);
         } catch (Exception e) {
             throw new UnirestException(e.getMessage(), e);
