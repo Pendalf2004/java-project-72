@@ -5,7 +5,6 @@ import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
 import model.CheckModel;
 import model.UrlModel;
 import org.jsoup.Jsoup;
@@ -32,9 +31,9 @@ public class ChecksController {
             check.setDescription(document.select("meta").attr("content"));
             CheckRepository.addCheck(check);
         } catch (Exception e) {
-            throw new UnirestException(e.getMessage(), e);
+            ctx.render(NamedRoutes.urlList());
         } finally {
-            ctx.redirect(NamedRoutes.urlPath(urlId));
+            ctx.render(NamedRoutes.urlPath(urlId));
         }
     }
 }
