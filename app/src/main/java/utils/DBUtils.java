@@ -36,7 +36,7 @@ public class DBUtils {
         }
         dataConfig = new HikariDataSource(hikariConfig);
         String query = "";
-        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("DBCreationQuery")) {
+        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema")) {
             query = new BufferedReader(new InputStreamReader(queryFile))
                     .lines()
                     .collect(Collectors.joining("\n"));
@@ -52,7 +52,8 @@ public class DBUtils {
 
     public static String getDbConfig() {
         return System.getenv().getOrDefault(
-                "JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+                "JDBC_DATABASE_URL", "jdbc:postgresql://localhost/postgres?password=password&user=postgres");
+                //"jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
     }
 
 }

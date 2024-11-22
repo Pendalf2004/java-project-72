@@ -23,7 +23,7 @@ public class UrlRepository extends BaseDB {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getLong(1));
-                url.setCreated(generatedKeys.getTimestamp(2));
+                url.setCreated(generatedKeys.getTimestamp(3));
             } else {
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }
@@ -80,8 +80,7 @@ public class UrlRepository extends BaseDB {
                 + "                    UrlCheck.statusCode  AS status_code"
                 + "                FROM urls "
                 + "                LEFT JOIN UrlCheck ON "
-                + "                    (UrlCheck.urlId = urls.id)"
-                + "                ORDER BY urls.created_at ASC;";
+                + "                    (UrlCheck.urlId = urls.id)";
         try (var conn = dataConfig.getConnection();
             var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();

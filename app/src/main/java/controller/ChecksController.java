@@ -31,9 +31,9 @@ public class ChecksController {
             check.setDescription(document.select("meta").attr("content"));
             CheckRepository.addCheck(check);
         } catch (Exception e) {
-            ctx.render(NamedRoutes.urlList());
+            ctx.redirect(NamedRoutes.urlList());
         } finally {
-            ctx.render(NamedRoutes.urlPath(urlId));
+            ctx.redirect(NamedRoutes.urlPath(urlId));
         }
     }
 }
