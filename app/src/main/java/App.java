@@ -4,8 +4,10 @@ import controller.UrlController;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.SneakyThrows;
+
 import utils.DBUtils;
 import utils.NamedRoutes;
+
 
 public class App {
 
@@ -16,8 +18,6 @@ public class App {
         page.start(DBUtils.getPort());
     }
 
-
-    @SneakyThrows
     public static Javalin getApp() {
         var renderPage = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();

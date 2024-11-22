@@ -21,7 +21,7 @@ import utils.DBUtils;
 import utils.NamedRoutes;
 
 class AppTest {
-    Javalin app;
+    static Javalin app;
     private static final String RES_FOLDER = System.getProperty("user.dir") + "/src/test/resources/";
 
     private static String readHTML(String fileName) throws IOException {
