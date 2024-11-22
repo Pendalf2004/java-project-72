@@ -23,9 +23,9 @@ public class UrlRepository extends BaseDB {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getLong(1));
-                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {
-                    url.setCreated(generatedKeys.getTimestamp(2));
-                } else {
+                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {    //  тут костыль, потому, что h2 возвращает
+                    url.setCreated(generatedKeys.getTimestamp(2));  //  в generatedKeys только сгенерированные
+                } else {                                                //  поля, а postgre - все
                     url.setCreated(generatedKeys.getTimestamp(3));
                 }
             } else {

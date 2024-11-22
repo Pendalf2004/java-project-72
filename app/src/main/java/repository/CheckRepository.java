@@ -24,9 +24,9 @@ public class CheckRepository extends BaseDB {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 check.setId(generatedKeys.getLong(1));
-                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {
-                    check.setCreatedAt(generatedKeys.getTimestamp(2));
-                } else {
+                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {        //  тут костыль, потому, что h2 возвращает
+                    check.setCreatedAt(generatedKeys.getTimestamp(2));   //  в generatedKeys только сгенерированные
+                } else {                                                    //  поля, а postgre - все
                     check.setCreatedAt(generatedKeys.getTimestamp(7));
                 }
 

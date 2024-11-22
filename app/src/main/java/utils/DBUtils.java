@@ -31,7 +31,7 @@ public class DBUtils {
     public static void createDB() throws SQLException, IOException {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDbConfig());
-        if (!hikariConfig.getJdbcUrl().startsWith("jdbc:h2")) {
+        if (!hikariConfig.getJdbcUrl().startsWith("jdbc:h2")) { //почему-то для postgre не автоподгружаются драйвера
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         }
         dataConfig = new HikariDataSource(hikariConfig);
