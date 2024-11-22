@@ -24,7 +24,12 @@ public class CheckRepository extends BaseDB {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 check.setId(generatedKeys.getLong(1));
-                check.setCreatedAt(generatedKeys.getTimestamp(7));
+                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {
+                    check.setCreatedAt(generatedKeys.getTimestamp(2));
+                } else {
+                    check.setCreatedAt(generatedKeys.getTimestamp(7));
+                }
+
             } else {
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }

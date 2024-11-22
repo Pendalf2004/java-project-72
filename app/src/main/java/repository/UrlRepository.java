@@ -23,7 +23,11 @@ public class UrlRepository extends BaseDB {
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getLong(1));
-                url.setCreated(generatedKeys.getTimestamp(3));
+                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {
+                    url.setCreated(generatedKeys.getTimestamp(2));
+                } else {
+                    url.setCreated(generatedKeys.getTimestamp(3));
+                }
             } else {
                 throw new SQLException("Database have not returned an id or createdAt after saving an entity");
             }
