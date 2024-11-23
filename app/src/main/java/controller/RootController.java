@@ -3,9 +3,9 @@ package controller;
 import datatemplate.paths.RootPage;
 import io.javalin.http.Context;
 import lombok.SneakyThrows;
-import model.UrlModel;
 import repository.UrlRepository;
 import utils.NamedRoutes;
+import model.UrlModel;
 
 import java.net.URI;
 import java.net.URISyntaxException;
