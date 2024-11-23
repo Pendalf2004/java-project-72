@@ -2,7 +2,6 @@ package controller;
 
 import datatemplate.paths.RootPage;
 import io.javalin.http.Context;
-import kotlin.reflect.jvm.internal.impl.serialization.deserialization.FlexibleTypeDeserializer;
 import lombok.SneakyThrows;
 import model.UrlModel;
 import repository.UrlRepository;
