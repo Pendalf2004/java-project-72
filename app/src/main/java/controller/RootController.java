@@ -2,6 +2,7 @@ package controller;
 
 import datatemplate.paths.RootPage;
 import io.javalin.http.Context;
+import kotlin.reflect.jvm.internal.impl.serialization.deserialization.FlexibleTypeDeserializer;
 import lombok.SneakyThrows;
 import model.UrlModel;
 import repository.UrlRepository;
@@ -25,6 +26,9 @@ public class RootController {
     public static void getNewURL(Context ctx) {
         String message = "";
         try {
+            if (ctx.formParam("url").isEmpty() || ctx.formParam("url").isEmpty()) {
+                throw new NullPointerException();
+            }
             URI uriPath = new URI(ctx.formParam("url"));
             String urlPath = uriPath.getScheme() + "://"
                     + uriPath.getAuthority();
