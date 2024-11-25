@@ -6,7 +6,6 @@ import lombok.SneakyThrows;
 import repository.UrlRepository;
 import utils.NamedRoutes;
 import model.UrlModel;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
