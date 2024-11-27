@@ -5,8 +5,8 @@ import hexlet.code.datatemplate.paths.UrlPage;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import lombok.SneakyThrows;
-import hexlet.code.CheckRepository;
-import hexlet.code.UrlRepository;
+import hexlet.code.repository.CheckRepository;
+import hexlet.code.repository.UrlRepository;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 

@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.repository;
 
 import lombok.SneakyThrows;
 import hexlet.code.model.UrlModel;

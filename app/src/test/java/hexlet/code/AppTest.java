@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import hexlet.code.repository.CheckRepository;
+import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
 import lombok.SneakyThrows;
 import hexlet.code.model.CheckModel;

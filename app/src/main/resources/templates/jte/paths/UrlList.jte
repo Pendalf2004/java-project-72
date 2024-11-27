@@ -1,5 +1,5 @@
 @import hexlet.code.datatemplate.paths.ListPage
-@import hexlet.code.UrlRepository
+@import hexlet.code.repository.UrlRepository
 @import hexlet.code.utils.NamedRoutes
 @param  ListPage urlListData
 

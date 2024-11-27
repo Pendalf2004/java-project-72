@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.repository;
 
 import hexlet.code.model.CheckModel;
 

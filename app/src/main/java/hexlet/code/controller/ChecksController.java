@@ -9,8 +9,8 @@ import hexlet.code.model.CheckModel;
 import hexlet.code.model.UrlModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import hexlet.code.CheckRepository;
-import hexlet.code.UrlRepository;
+import hexlet.code.repository.CheckRepository;
+import hexlet.code.repository.UrlRepository;
 import hexlet.code.utils.NamedRoutes;
 
 public class ChecksController {

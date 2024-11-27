@@ -3,7 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.datatemplate.paths.RootPage;
 import io.javalin.http.Context;
 import lombok.SneakyThrows;
-import hexlet.code.UrlRepository;
+import hexlet.code.repository.UrlRepository;
 import hexlet.code.utils.NamedRoutes;
 import hexlet.code.model.UrlModel;
 import java.net.URI;
