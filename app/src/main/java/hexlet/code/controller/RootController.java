@@ -1,11 +1,11 @@
-package controller;
+package hexlet.code.controller;
 
-import datatemplate.paths.RootPage;
+import hexlet.code.datatemplate.paths.RootPage;
 import io.javalin.http.Context;
 import lombok.SneakyThrows;
-import repository.UrlRepository;
-import utils.NamedRoutes;
-import model.UrlModel;
+import hexlet.code.UrlRepository;
+import hexlet.code.utils.NamedRoutes;
+import hexlet.code.model.UrlModel;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;

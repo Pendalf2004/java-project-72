@@ -1,7 +1,7 @@
-@import datatemplate.paths.UrlPage
-@import model.CheckModel
-@import repository.CheckRepository
-@import utils.NamedRoutes
+@import hexlet.code.datatemplate.paths.UrlPage
+@import hexlet.code.model.CheckModel
+@import hexlet.code.CheckRepository
+@import hexlet.code.utils.NamedRoutes
 
 @param UrlPage urlDetails
 

@@ -1,4 +1,4 @@
-package repository;
+package hexlet.code;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Setter;

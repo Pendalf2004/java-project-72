@@ -1,17 +1,17 @@
-package controller;
+package hexlet.code.controller;
 
 import io.javalin.http.Context;
 
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import model.CheckModel;
-import model.UrlModel;
+import hexlet.code.model.CheckModel;
+import hexlet.code.model.UrlModel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import repository.CheckRepository;
-import repository.UrlRepository;
-import utils.NamedRoutes;
+import hexlet.code.CheckRepository;
+import hexlet.code.UrlRepository;
+import hexlet.code.utils.NamedRoutes;
 
 public class ChecksController {
 

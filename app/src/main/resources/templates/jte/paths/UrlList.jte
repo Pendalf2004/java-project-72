@@ -1,6 +1,6 @@
-@import datatemplate.paths.ListPage
-@import repository.UrlRepository
-@import utils.NamedRoutes
+@import hexlet.code.datatemplate.paths.ListPage
+@import hexlet.code.UrlRepository
+@import hexlet.code.utils.NamedRoutes
 @param  ListPage urlListData
 
 @template.layout.template(

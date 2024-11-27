@@ -1,10 +1,10 @@
-package datatemplate.paths;
+package hexlet.code.datatemplate.paths;
 
-import datatemplate.BasePage;
+import hexlet.code.datatemplate.BasePage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import model.UrlModel;
+import hexlet.code.model.UrlModel;
 
 import java.util.List;
 

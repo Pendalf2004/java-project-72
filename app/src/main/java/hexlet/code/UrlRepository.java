@@ -1,7 +1,7 @@
-package repository;
+package hexlet.code;
 
 import lombok.SneakyThrows;
-import model.UrlModel;
+import hexlet.code.model.UrlModel;
 
 import java.sql.SQLException;
 import java.sql.Statement;

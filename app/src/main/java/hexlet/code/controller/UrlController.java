@@ -1,12 +1,12 @@
-package controller;
+package hexlet.code.controller;
 
-import datatemplate.paths.ListPage;
-import datatemplate.paths.UrlPage;
+import hexlet.code.datatemplate.paths.ListPage;
+import hexlet.code.datatemplate.paths.UrlPage;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import lombok.SneakyThrows;
-import repository.CheckRepository;
-import repository.UrlRepository;
+import hexlet.code.CheckRepository;
+import hexlet.code.UrlRepository;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 

@@ -1,6 +1,6 @@
-package repository;
+package hexlet.code;
 
-import model.CheckModel;
+import hexlet.code.model.CheckModel;
 
 import java.sql.SQLException;
 import java.sql.Statement;

@@ -1,11 +1,11 @@
-package utils;
+package hexlet.code.utils;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
-import repository.UrlRepository;
+import hexlet.code.UrlRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class DBUtils {
         }
         dataConfig = new HikariDataSource(hikariConfig);
         String query = "";
-        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema")) {
+        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
             query = new BufferedReader(new InputStreamReader(queryFile))
                     .lines()
                     .collect(Collectors.joining("\n"));

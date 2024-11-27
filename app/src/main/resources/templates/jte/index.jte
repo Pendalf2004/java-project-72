@@ -1,5 +1,5 @@
-@import datatemplate.paths.RootPage
-@import utils.NamedRoutes
+@import hexlet.code.datatemplate.paths.RootPage
+@import hexlet.code.utils.NamedRoutes
 @param  RootPage data
 
 @template.layout.template(
@@ -13,7 +13,7 @@
         <div class="p-2 m-2">
                 <h2>Hello world</h2>
                 <hr>
-                <form action="${utils.NamedRoutes.root()}" method="post">
+                <form action="${hexlet.code.utils.NamedRoutes.root()}" method="post">
                     <div>
                         <label for="urlInput" class="form-label">
                             Имя

@@ -1,12 +1,14 @@
-import controller.ChecksController;
-import controller.RootController;
-import controller.UrlController;
+package hexlet.code;
+
+import hexlet.code.controller.ChecksController;
+import hexlet.code.controller.RootController;
+import hexlet.code.controller.UrlController;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import lombok.SneakyThrows;
 
-import utils.DBUtils;
-import utils.NamedRoutes;
+import hexlet.code.utils.DBUtils;
+import hexlet.code.utils.NamedRoutes;
 
 
 public class App {

@@ -1,7 +1,9 @@
+package hexlet.code;
+
 import io.javalin.Javalin;
 import lombok.SneakyThrows;
-import model.CheckModel;
-import model.UrlModel;
+import hexlet.code.model.CheckModel;
+import hexlet.code.model.UrlModel;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,14 +17,13 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import io.javalin.testtools.JavalinTest;
-import repository.CheckRepository;
-import repository.UrlRepository;
-import utils.DBUtils;
-import utils.NamedRoutes;
+import hexlet.code.utils.DBUtils;
+import hexlet.code.utils.NamedRoutes;
 
 class AppTest {
     static Javalin app;
-    private static final String RES_FOLDER = System.getProperty("user.dir") + "/src/test/resources/";
+    private static final String RES_FOLDER = System.getProperty("user.dir")
+            + "/src/test/java/hexlet/code/resources/";
 
     private static String readHTML(String fileName) throws IOException {
         return Files.readString(Path.of(RES_FOLDER + fileName));
