@@ -21,6 +21,7 @@ public class App {
     }
 
     public static Javalin getApp() {
+
         var renderPage = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(DBUtils.createTemplateEngine()));
