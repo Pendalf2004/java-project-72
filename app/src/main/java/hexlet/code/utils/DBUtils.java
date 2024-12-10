@@ -54,8 +54,8 @@ public class DBUtils {
     public static String getDbConfig() {
         return System.getenv().getOrDefault(
                 "JDBC_DATABASE_URL",
-                //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
-                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+                "jdbc:postgresql://localhost/postgres?password=password&user=postgres");
+                //"jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
     }
 
 }
