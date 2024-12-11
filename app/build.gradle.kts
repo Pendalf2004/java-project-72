@@ -19,7 +19,7 @@ repositories {
 }
 
 application {
-    mainClass.set("App")
+    mainClass.set("hexlet.code.App")
 }
 
 
