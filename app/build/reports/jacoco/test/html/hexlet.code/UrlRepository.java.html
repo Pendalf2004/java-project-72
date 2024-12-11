@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UrlRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">hexlet.code</a> &gt; <span class="el_source">UrlRepository.java</span></div><h1>UrlRepository.java</h1><pre class="source lang-java linenums">package hexlet.code;
+
+import lombok.SneakyThrows;
+import hexlet.code.model.UrlModel;
+
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+<span class="nc" id="L12">public class UrlRepository extends BaseDB {</span>
+
+<span class="fc" id="L14">    protected static List&lt;UrlModel&gt; urls = new ArrayList&lt;UrlModel&gt;();</span>
+
+
+    public static void addURL(UrlModel url) throws SQLException {
+<span class="fc" id="L18">        String query = &quot;INSERT INTO urls (address) VALUES (?)&quot;;</span>
+<span class="fc" id="L19">        try (var conn = dataConfig.getConnection();</span>
+<span class="fc" id="L20">             var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {</span>
+<span class="fc" id="L21">            preparedStatement.setString(1, url.getAddress());</span>
+<span class="fc" id="L22">            preparedStatement.executeUpdate();</span>
+<span class="fc" id="L23">            var generatedKeys = preparedStatement.getGeneratedKeys();</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            if (generatedKeys.next()) {</span>
+<span class="fc" id="L25">                url.setId(generatedKeys.getLong(1));</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">                if (dataConfig.getJdbcUrl().startsWith(&quot;jdbc:h2&quot;)) {    //  тут костыль, потому, что h2 возвращает</span>
+<span class="fc" id="L27">                    url.setCreated(generatedKeys.getTimestamp(2));  //  в generatedKeys только сгенерированные</span>
+                } else {                                                //  поля, а postgre - все
+<span class="nc" id="L29">                    url.setCreated(generatedKeys.getTimestamp(3));</span>
+                }
+            } else {
+<span class="nc" id="L32">                throw new SQLException(&quot;Database have not returned an id or createdAt after saving an entity&quot;);</span>
+            }
+<span class="fc" id="L34">            urls.add(url);</span>
+        }
+<span class="fc" id="L36">    }</span>
+
+<span class="nc" id="L38">    @SneakyThrows</span>
+    public static Optional&lt;UrlModel&gt; findById(Long id) {
+<span class="fc" id="L40">        String query = &quot;SELECT * FROM urls WHERE id = ?&quot;;</span>
+<span class="fc" id="L41">        try (var conn = dataConfig.getConnection();</span>
+<span class="fc" id="L42">             var preparedStatement = conn.prepareStatement(query)) {</span>
+<span class="fc" id="L43">            preparedStatement.setLong(1, id);</span>
+<span class="fc" id="L44">            var urlList = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (urlList.next()) {</span>
+<span class="fc" id="L46">                var url = new UrlModel(urlList.getString(&quot;address&quot;));</span>
+<span class="fc" id="L47">                url.setCreated(urlList.getTimestamp(&quot;created_at&quot;));</span>
+<span class="fc" id="L48">                url.setId(id);</span>
+<span class="fc" id="L49">                return Optional.of(url);</span>
+            }
+<span class="fc" id="L51">            return Optional.empty();</span>
+<span class="pc bpc" id="L52" title="2 of 4 branches missed.">        }</span>
+    }
+
+    public static List&lt;UrlModel&gt; getAll() throws SQLException {
+<span class="fc" id="L56">        String query = &quot;SELECT * FROM urls;&quot;;</span>
+<span class="fc" id="L57">        try (var conn = dataConfig.getConnection();</span>
+<span class="fc" id="L58">            var preparedStatement = conn.prepareStatement(query)) {</span>
+<span class="fc" id="L59">            var urlList = preparedStatement.executeQuery();</span>
+<span class="fc" id="L60">            var result = new ArrayList&lt;UrlModel&gt;();</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            while (urlList.next()) {</span>
+<span class="nc" id="L62">                var url = new UrlModel(urlList.getString(&quot;address&quot;));</span>
+<span class="nc" id="L63">                url.setId(urlList.getLong(&quot;id&quot;));</span>
+<span class="nc" id="L64">                url.setCreated(urlList.getTimestamp(&quot;created_at&quot;));</span>
+<span class="nc" id="L65">                result.add(url);</span>
+<span class="nc" id="L66">            }</span>
+<span class="fc" id="L67">            return result;</span>
+        }
+    }
+
+    public static List&lt;UrlModel&gt; findByName(String address) {
+<span class="nc" id="L72">        return urls.stream()</span>
+<span class="nc" id="L73">                .filter(entity -&gt; entity.getAddress().contains(address))</span>
+<span class="nc" id="L74">                .toList();</span>
+    }
+
+    public static List&lt;UrlModel&gt; withLatestCheck() {
+<span class="fc" id="L78">        var result = new ArrayList&lt;UrlModel&gt;();</span>
+<span class="fc" id="L79">        String query = &quot;SELECT DISTINCT ON (urls.id)&quot;</span>
+                + &quot;                    urls.id, &quot;
+                + &quot;                    urls.address, &quot;
+                + &quot;                    urls.created_at AS created, &quot;
+                + &quot;                    UrlCheck.created_at AS last_check, &quot;
+                + &quot;                    UrlCheck.statusCode  AS status_code&quot;
+                + &quot;                FROM urls &quot;
+                + &quot;                LEFT JOIN UrlCheck ON &quot;
+                + &quot;                    (UrlCheck.urlId = urls.id)&quot;;
+<span class="fc" id="L88">        try (var conn = dataConfig.getConnection();</span>
+<span class="fc" id="L89">            var preparedStatement = conn.prepareStatement(query)) {</span>
+<span class="fc" id="L90">            var urlList = preparedStatement.executeQuery();</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            while (urlList.next()) {</span>
+<span class="nc" id="L92">                var url = new UrlModel(urlList.getString(&quot;address&quot;));</span>
+<span class="nc" id="L93">                url.setId(urlList.getLong(&quot;id&quot;));</span>
+<span class="nc" id="L94">                url.setCreated(urlList.getTimestamp(&quot;created&quot;));</span>
+<span class="nc" id="L95">                url.setLastCheckTime(urlList.getTimestamp(&quot;last_check&quot;));</span>
+<span class="nc" id="L96">                url.setStatusCode(urlList.getInt(&quot;status_code&quot;));</span>
+<span class="nc" id="L97">                result.add(url);</span>
+<span class="nc" id="L98">            }</span>
+<span class="nc" id="L99">        } catch (SQLException e) {</span>
+<span class="nc" id="L100">            throw new RuntimeException(e);</span>
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">        return result;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

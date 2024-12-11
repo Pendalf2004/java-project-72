@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DBUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">hexlet.code.utils</a> &gt; <span class="el_source">DBUtils.java</span></div><h1>DBUtils.java</h1><pre class="source lang-java linenums">package hexlet.code.utils;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.repository.UrlRepository;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.stream.Collectors;
+
+<span class="nc" id="L16">public class DBUtils {</span>
+    public static HikariDataSource dataConfig;
+
+    public static int getPort() {
+<span class="nc" id="L20">        String port = System.getenv().getOrDefault(&quot;PORT&quot;, &quot;7070&quot;);</span>
+<span class="nc" id="L21">        return Integer.parseInt(port);</span>
+    }
+
+    public static TemplateEngine createTemplateEngine() {
+<span class="fc" id="L25">        ClassLoader classLoader = DBUtils.class.getClassLoader();</span>
+<span class="fc" id="L26">        ResourceCodeResolver codeResolver = new ResourceCodeResolver(&quot;templates/jte&quot;, classLoader);</span>
+<span class="fc" id="L27">        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);</span>
+<span class="fc" id="L28">        return templateEngine;</span>
+    }
+
+    public static void createDB() throws SQLException, IOException {
+<span class="fc" id="L32">        var hikariConfig = new HikariConfig();</span>
+<span class="fc" id="L33">        hikariConfig.setJdbcUrl(getDbConfig());</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (hikariConfig.getJdbcUrl().startsWith(&quot;jdbc:postgresql&quot;)) { //почему-то для postgre не</span>
+            // подгружаются драйвера автоматически
+<span class="nc" id="L36">            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());</span>
+        }
+<span class="fc" id="L38">        dataConfig = new HikariDataSource(hikariConfig);</span>
+<span class="fc" id="L39">        String query = &quot;&quot;;</span>
+<span class="fc" id="L40">        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream(&quot;schema.sql&quot;)) {</span>
+<span class="fc" id="L41">            query = new BufferedReader(new InputStreamReader(queryFile))</span>
+<span class="fc" id="L42">                    .lines()</span>
+<span class="fc" id="L43">                    .collect(Collectors.joining(&quot;\n&quot;));</span>
+        } finally {
+<span class="fc" id="L45">            try (var connection = dataConfig.getConnection();</span>
+<span class="fc" id="L46">                 var statement = connection.createStatement()) {</span>
+<span class="fc" id="L47">                statement.execute(query);</span>
+            } finally {
+<span class="fc" id="L49">                UrlRepository.dataConfig = dataConfig;</span>
+            }
+        }
+<span class="fc" id="L52">    }</span>
+
+    public static String getDbConfig() {
+<span class="fc" id="L55">        return System.getenv().getOrDefault(</span>
+                &quot;JDBC_DATABASE_URL&quot;,
+                //&quot;jdbc:postgresql://localhost/postgres?password=password&amp;user=postgres&quot;);
+                &quot;jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;&quot;);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

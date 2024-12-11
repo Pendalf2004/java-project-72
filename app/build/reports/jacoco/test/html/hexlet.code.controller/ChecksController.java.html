@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChecksController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">hexlet.code.controller</a> &gt; <span class="el_source">ChecksController.java</span></div><h1>ChecksController.java</h1><pre class="source lang-java linenums">package hexlet.code.controller;
+
+import io.javalin.http.Context;
+
+import io.javalin.http.NotFoundResponse;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import hexlet.code.model.CheckModel;
+import hexlet.code.model.UrlModel;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import hexlet.code.repository.CheckRepository;
+import hexlet.code.repository.UrlRepository;
+import hexlet.code.utils.NamedRoutes;
+
+<span class="nc" id="L16">public class ChecksController {</span>
+
+    public static void check(Context ctx) {
+<span class="fc" id="L19">        var urlId = ctx.pathParamAsClass(&quot;id&quot;, Long.class).get();</span>
+<span class="fc" id="L20">        UrlModel url = UrlRepository.findById(urlId)</span>
+<span class="pc" id="L21">                .orElseThrow(() -&gt; new NotFoundResponse(&quot;No such url&quot;));</span>
+<span class="fc" id="L22">        var check = new CheckModel(urlId);</span>
+        try {
+<span class="fc" id="L24">            HttpResponse&lt;String&gt; response = Unirest.get(url.getAddress()).asString();</span>
+<span class="fc" id="L25">            int statusCode = response.getStatus();</span>
+<span class="fc" id="L26">            var responseBody = response.getBody();</span>
+<span class="fc" id="L27">            check.setStatusCode(statusCode);</span>
+<span class="fc" id="L28">            Document document = Jsoup.parse(responseBody);</span>
+<span class="fc" id="L29">            check.setTitle(document.title());</span>
+<span class="fc" id="L30">            check.setH1(document.select(&quot;h1&quot;).text());</span>
+<span class="fc" id="L31">            check.setDescription(document.select(&quot;meta&quot;).attr(&quot;content&quot;));</span>
+<span class="fc" id="L32">            CheckRepository.addCheck(check);</span>
+<span class="nc" id="L33">        } catch (Exception e) {</span>
+<span class="nc" id="L34">            ctx.redirect(NamedRoutes.urlList());</span>
+        } finally {
+<span class="fc" id="L36">            ctx.redirect(NamedRoutes.urlPath(urlId));</span>
+        }
+<span class="fc" id="L38">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
