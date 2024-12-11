@@ -24,11 +24,11 @@ import java.util.List;
 <span class="fc" id="L24">            var generatedKeys = preparedStatement.getGeneratedKeys();</span>
 <span class="pc bpc" id="L25" title="1 of 2 branches missed.">            if (generatedKeys.next()) {</span>
 <span class="fc" id="L26">                check.setId(generatedKeys.getLong(1));</span>
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">                if (dataConfig.getJdbcUrl().startsWith(&quot;jdbc:h2&quot;)) {        //  тут костыль, потому, что h2 возвращает</span>
+                //if (dataConfig.getJdbcUrl().startsWith(&quot;jdbc:h2&quot;)) {        //  тут костыль, потому, что h2 возвращает
 <span class="fc" id="L28">                    check.setCreatedAt(generatedKeys.getTimestamp(2));   //  в generatedKeys только сгенерированные</span>
-                } else {                                                    //  поля, а postgre - все
-<span class="nc" id="L30">                    check.setCreatedAt(generatedKeys.getTimestamp(7));</span>
-                }
+                //} else {                                                    //  поля, а postgre - все
+                //    check.setCreatedAt(generatedKeys.getTimestamp(7));
+                //}
 
             } else {
 <span class="nc" id="L34">                throw new SQLException(&quot;Database have not returned an id or createdAt after saving an entity&quot;);</span>

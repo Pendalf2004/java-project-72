@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="hexlet.code.AppTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-12-11T12:03:13" hostname="john-Lenovo-ideapad-310-15ISK" time="8.964">
+<testsuite name="hexlet.code.AppTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-12-11T16:05:42" hostname="john-Lenovo-ideapad-310-15ISK" time="8.555">
   <properties/>
-  <testcase name="testNotFound()" classname="hexlet.code.AppTest" time="4.6"/>
-  <testcase name="testUrlListPage()" classname="hexlet.code.AppTest" time="2.283"/>
-  <testcase name="testCheck()" classname="hexlet.code.AppTest" time="1.22"/>
-  <testcase name="testRoot()" classname="hexlet.code.AppTest" time="0.437"/>
-  <testcase name="testUrlDetailsPage()" classname="hexlet.code.AppTest" time="0.416"/>
+  <testcase name="testNotFound()" classname="hexlet.code.AppTest" time="3.864"/>
+  <testcase name="testUrlListPage()" classname="hexlet.code.AppTest" time="2.336"/>
+  <testcase name="testCheck()" classname="hexlet.code.AppTest" time="1.245"/>
+  <testcase name="testRoot()" classname="hexlet.code.AppTest" time="0.537"/>
+  <testcase name="testUrlDetailsPage()" classname="hexlet.code.AppTest" time="0.556"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[SLF4J(W): Class path contains multiple SLF4J providers.
 SLF4J(W): Found provider [org.slf4j.simple.SimpleServiceProvider@2ab0702e]
