@@ -19,4 +19,7 @@ report:
 build-run: 
   make -C app build run
 
+installDist:
+	make -C app installDist
+
 .PHONY: build

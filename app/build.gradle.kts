@@ -18,7 +18,9 @@ repositories {
     mavenCentral()
 }
 
-
+application {
+    mainClass.set("App")
+}
 
 
 dependencies {
