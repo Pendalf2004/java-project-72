@@ -25,7 +25,7 @@ import hexlet.code.utils.NamedRoutes;
 class AppTest {
     static Javalin app;
     private static final String RES_FOLDER = System.getProperty("user.dir")
-            + "/src/test/java/hexlet/code/resources/";
+            + "/src/test/resources/";
 
     private static String readHTML(String fileName) throws IOException {
         return Files.readString(Path.of(RES_FOLDER + fileName));
