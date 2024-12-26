@@ -12,7 +12,7 @@ public class CheckRepository extends BaseDB {
 
     public static void addCheck(CheckModel check) throws SQLException {
         String sql =
-                "INSERT INTO UrlCheck (urlId, statusCode, title, h1, description) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO url_checks (urlId, statusCode, title, h1, description) VALUES (?, ?, ?, ?, ?)";
         try (var conn = dataConfig.getConnection();
              var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, check.getUrlId());
@@ -37,7 +37,7 @@ public class CheckRepository extends BaseDB {
     }
 
     public static List<CheckModel> findAllByUrlId(Long urlId) throws SQLException {
-        String query =  "SELECT * FROM UrlCheck "
+        String query =  "SELECT * FROM url_checks "
                 +       "WHERE urlId = " + urlId
                 +       "ORDER BY id DESC;";
         try (var conn = dataConfig.getConnection();

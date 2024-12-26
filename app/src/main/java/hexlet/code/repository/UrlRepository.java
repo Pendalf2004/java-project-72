@@ -80,11 +80,11 @@ public class UrlRepository extends BaseDB {
                 + "                    urls.id, "
                 + "                    urls.address, "
                 + "                    urls.created_at AS created, "
-                + "                    UrlCheck.created_at AS last_check, "
-                + "                    UrlCheck.statusCode  AS status_code"
+                + "                    url_checks.created_at AS last_check, "
+                + "                    url_checks.statusCode  AS status_code"
                 + "                FROM urls "
-                + "                LEFT JOIN UrlCheck ON "
-                + "                    (UrlCheck.urlId = urls.id)";
+                + "                LEFT JOIN url_checks ON "
+                + "                    (url_checks.urlId = urls.id)";
         try (var conn = dataConfig.getConnection();
             var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
