@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.repository.BaseDB;
+import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
 
 import java.io.BufferedReader;
@@ -46,7 +48,7 @@ public class DBUtils {
                  var statement = connection.createStatement()) {
                 statement.execute(query);
             } finally {
-                UrlRepository.dataConfig = dataConfig;
+                BaseDB.dataConfig = dataConfig;
             }
         }
     }
