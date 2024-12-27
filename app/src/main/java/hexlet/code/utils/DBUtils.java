@@ -36,6 +36,8 @@ public class DBUtils {
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         }
         dataConfig = new HikariDataSource(hikariConfig);
+        BaseDB.dataConfig = dataConfig;
+
         String query = "";
         try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
             query = new BufferedReader(new InputStreamReader(queryFile))
@@ -45,8 +47,6 @@ public class DBUtils {
             try (var connection = dataConfig.getConnection();
                  var statement = connection.createStatement()) {
                 statement.execute(query);
-            } finally {
-                BaseDB.dataConfig = dataConfig;
             }
         }
     }
