@@ -3,8 +3,11 @@ package hexlet.code;
 import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
+import hexlet.code.repository.BaseDB;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.SneakyThrows;
 
 import hexlet.code.utils.DBUtils;
@@ -15,6 +18,11 @@ public class App {
 
     @SneakyThrows
     public static void main(String[] args) {
+        var hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(DBUtils.getDbConfig());
+
+        var dataSource = new HikariDataSource(hikariConfig);
+        BaseDB.dataConfig = dataSource;
 
         DBUtils.createDB();
         var page = getApp();
