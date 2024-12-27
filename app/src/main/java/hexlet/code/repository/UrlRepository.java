@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static hexlet.code.repository.BaseDB.dataConfig;
+
 public class UrlRepository extends BaseDB {
 
     protected static List<UrlModel> urls = new ArrayList<UrlModel>();

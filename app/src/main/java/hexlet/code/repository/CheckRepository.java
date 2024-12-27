@@ -7,14 +7,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static hexlet.code.repository.BaseDB.dataConfig;
+
 public class CheckRepository extends BaseDB {
     protected static List<CheckModel> checks = new ArrayList<CheckModel>();
 
     public static void addCheck(CheckModel check) throws SQLException {
-        String sql =
+        String query =
                 "INSERT INTO url_checks (urlId, statusCode, title, h1, description) VALUES (?, ?, ?, ?, ?)";
         try (var conn = dataConfig.getConnection();
-             var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, check.getUrlId());
             preparedStatement.setInt(2, check.getStatusCode());
             preparedStatement.setString(3, check.getTitle());

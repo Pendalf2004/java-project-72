@@ -4,6 +4,7 @@ import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseDB;
+import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import com.zaxxer.hikari.HikariConfig;
@@ -21,8 +22,9 @@ public class App {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(DBUtils.getDbConfig());
 
-        var dataSource = new HikariDataSource(hikariConfig);
-        BaseDB.dataConfig = dataSource;
+        var dataConfig = new HikariDataSource(hikariConfig);
+        BaseDB.dataConfig = dataConfig;
+        UrlRepository.dataConfig = dataConfig;
 
         DBUtils.createDB();
         var page = getApp();
