@@ -15,6 +15,7 @@ public class App {
 
     @SneakyThrows
     public static void main(String[] args) {
+
         DBUtils.createDB();
         var page = getApp();
         page.start(DBUtils.getPort());
@@ -28,7 +29,7 @@ public class App {
         });
 
         renderPage.get(NamedRoutes.root(), RootController::showRoot);
-        renderPage.post(NamedRoutes.root(), RootController::getNewURL);
+        renderPage.post(NamedRoutes.urlList(), RootController::getNewURL);
 
         renderPage.get(NamedRoutes.urlList(), UrlController::showList);
         renderPage.get(NamedRoutes.urlPath("{id}"), UrlController::showURL);

@@ -13,7 +13,7 @@
         <div class="p-2 m-2">
                 <h2>Hello world</h2>
                 <hr>
-                <form action="${hexlet.code.utils.NamedRoutes.root()}" method="post">
+                <form action="${hexlet.code.utils.NamedRoutes.urlList()}" method="post">
                     <div>
                         <label for="urlInput" class="form-label">
                             Имя

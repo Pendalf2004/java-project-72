@@ -37,7 +37,7 @@ public class UrlRepository extends BaseDB {
 
     @SneakyThrows
     public static Optional<UrlModel> findById(Long id) {
-        String query = "SELECT * FROM urls WHERE id = ?";
+        String query = "SELECT * FROM urls WHERE id = (?)";
         try (var conn = dataConfig.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
