@@ -108,4 +108,14 @@ class AppTest {
         }
     }
 
+    @Test
+    public void testCreateUrls() {
+        JavalinTest.test(app, (server, client) -> {
+            var requestBody = "url=http://www.ya.ru";
+            var response = client.post(NamedRoutes.urlList(), requestBody);
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(!UrlRepository.findByName("http://www.ya.ru").isEmpty());
+        });
+    }
+
 }

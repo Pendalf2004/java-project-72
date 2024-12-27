@@ -29,7 +29,7 @@ public class App {
         });
 
         renderPage.get(NamedRoutes.root(), RootController::showRoot);
-        renderPage.post(NamedRoutes.urlList(), RootController::getNewURL);
+        renderPage.post(NamedRoutes.urlList(), UrlController::getNewURL);
 
         renderPage.get(NamedRoutes.urlList(), UrlController::showList);
         renderPage.get(NamedRoutes.urlPath("{id}"), UrlController::showURL);
