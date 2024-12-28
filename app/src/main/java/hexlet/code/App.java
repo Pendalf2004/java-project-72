@@ -20,6 +20,11 @@ public class App {
     @SneakyThrows
     public static void main(String[] args) {
         var hikariConfig = new HikariConfig();
+
+        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
+            // подгружаются драйвера автоматически
+            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+        }
         hikariConfig.setJdbcUrl(DBUtils.getDbConfig());
 
         var dataConfig = new HikariDataSource(hikariConfig);
