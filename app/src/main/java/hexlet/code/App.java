@@ -9,7 +9,6 @@ import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.SneakyThrows;
 
 import hexlet.code.utils.DBUtils;
 import hexlet.code.utils.NamedRoutes;
