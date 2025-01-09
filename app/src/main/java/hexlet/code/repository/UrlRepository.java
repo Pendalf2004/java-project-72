@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static hexlet.code.repository.BaseDB.dataConfig;
-
 public class UrlRepository extends BaseDB {
 
     protected static List<UrlModel> urls = new ArrayList<UrlModel>();
@@ -18,14 +16,14 @@ public class UrlRepository extends BaseDB {
 
     public static void addURL(UrlModel url) throws SQLException {
         String query = "INSERT INTO urls (address) VALUES (?)";
-        try (var conn = dataConfig.getConnection();
+        try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getAddress());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 url.setId(generatedKeys.getLong(1));
-                if (dataConfig.getJdbcUrl().startsWith("jdbc:h2")) {    //  тут костыль, потому, что h2 возвращает
+                if (dataSource.getJdbcUrl().startsWith("jdbc:h2")) {    //  тут костыль, потому, что h2 возвращает
                     url.setCreated(generatedKeys.getTimestamp(2));  //  в generatedKeys только сгенерированные
                 } else {                                                //  поля, а postgre - все
                     url.setCreated(generatedKeys.getTimestamp(3));
@@ -40,7 +38,7 @@ public class UrlRepository extends BaseDB {
     @SneakyThrows
     public static Optional<UrlModel> findById(Long id) {
         String query = "SELECT * FROM urls WHERE id = (?)";
-        try (var conn = dataConfig.getConnection();
+        try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setLong(1, id);
             var urlList = preparedStatement.executeQuery();
@@ -56,8 +54,8 @@ public class UrlRepository extends BaseDB {
 
     public static List<UrlModel> getAll() throws SQLException {
         String query = "SELECT * FROM urls;";
-        try (var conn = dataConfig.getConnection();
-            var preparedStatement = conn.prepareStatement(query)) {
+        try (var conn = dataSource.getConnection();
+             var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
             var result = new ArrayList<UrlModel>();
             while (urlList.next()) {
@@ -87,8 +85,8 @@ public class UrlRepository extends BaseDB {
                 + "                FROM urls "
                 + "                LEFT JOIN url_checks ON "
                 + "                    (url_checks.urlId = urls.id)";
-        try (var conn = dataConfig.getConnection();
-            var preparedStatement = conn.prepareStatement(query)) {
+        try (var conn = dataSource.getConnection();
+             var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
             while (urlList.next()) {
                 var url = new UrlModel(urlList.getString("address"));

@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 @Setter
 public class BaseDB {
-    public static HikariDataSource dataConfig;
+    public static HikariDataSource dataSource;
 
     public static String getTime(Timestamp timestamp) {
         var formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

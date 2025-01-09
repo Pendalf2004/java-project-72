@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class DBUtils {
-    public static HikariDataSource dataConfig;
+    public static HikariDataSource dataSource;
 
     public static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "7070");
@@ -28,15 +28,24 @@ public class DBUtils {
         return templateEngine;
     }
 
+    public static String getDbConfig() {
+        return System.getenv().getOrDefault(
+                "JDBC_DATABASE_URL",
+                //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
+                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+    }
+
     public static void createDB() throws SQLException, IOException {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDbConfig());
         if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
             // подгружаются драйвера автоматически
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+        } else {
+            hikariConfig.setDriverClassName(org.h2.Driver.class.getName());
         }
-        dataConfig = new HikariDataSource(hikariConfig);
-        BaseDB.dataConfig = dataConfig;
+        dataSource = new HikariDataSource(hikariConfig);
+        BaseDB.dataSource = dataSource;
 
         String query = "";
         try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
@@ -44,17 +53,10 @@ public class DBUtils {
                     .lines()
                     .collect(Collectors.joining("\n"));
         } finally {
-            try (var connection = dataConfig.getConnection();
+            try (var connection = dataSource.getConnection();
                  var statement = connection.createStatement()) {
                 statement.execute(query);
             }
         }
-    }
-
-    public static String getDbConfig() {
-        return System.getenv().getOrDefault(
-                "JDBC_DATABASE_URL",
-                //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
-                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
     }
 }

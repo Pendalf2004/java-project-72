@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.repository.BaseDB;
 import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
@@ -54,6 +55,36 @@ class AppTest {
             var response = client.get(NamedRoutes.root());
             assertThat(response.code()).isEqualTo(200);
             assertThat(response.body().string()).contains("Hello world");
+        });
+    }
+
+    @Test
+    void testStore() {
+        MockWebServer mock = new MockWebServer();
+        String url = mock.url("/").toString().replaceAll("/$", "");
+
+        JavalinTest.test(app, (server, client) -> {
+            var requestBody = "url=" + url;
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
+
+ //          var actualUrl = DBUtils.getUrlByName(BaseDB.dataSource, url);
+//            assertThat(actualUrl).isNotNull();
+//            System.out.println("\n!!!!!");
+//            System.out.println(actualUrl);
+
+//            System.out.println("\n");
+//            assertThat(actualUrl.get("name").toString()).isEqualTo(url);
+
+//            client.post("/urls/" + actualUrl.get("id") + "/checks");
+
+//            assertThat(client.get("/urls/" + actualUrl.get("id")).code())
+//                    .isEqualTo(200);
+//
+//            var actualCheck = TestUtils.getUrlCheck(dataSource, (long) actualUrl.get("id"));
+//            assertThat(actualCheck).isNotNull();
+//            assertThat(actualCheck.get("title")).isEqualTo("Test page");
+//            assertThat(actualCheck.get("h1")).isEqualTo("Do not expect a miracle, miracles yourself!");
+//            assertThat(actualCheck.get("description")).isEqualTo("statements of great people");
         });
     }
 
