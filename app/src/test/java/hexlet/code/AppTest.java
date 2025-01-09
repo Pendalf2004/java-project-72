@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.repository.BaseDB;
 import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
