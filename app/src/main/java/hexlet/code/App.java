@@ -5,10 +5,8 @@ import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
-
 import hexlet.code.utils.DBUtils;
 import hexlet.code.utils.NamedRoutes;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
