@@ -66,7 +66,7 @@ class AppTest {
             var requestBody = "url=" + url;
             assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
 
-           var actualUrl = UrlRepository.findByName(url);
+            var actualUrl = UrlRepository.findByName(url);
             assertThat(actualUrl).isNotNull();
             System.out.println("\n!!!!!");
             System.out.println(actualUrl);
