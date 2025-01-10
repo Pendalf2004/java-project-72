@@ -66,24 +66,24 @@ class AppTest {
             var requestBody = "url=" + url;
             assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
 
- //          var actualUrl = DBUtils.getUrlByName(BaseDB.dataSource, url);
-//            assertThat(actualUrl).isNotNull();
-//            System.out.println("\n!!!!!");
-//            System.out.println(actualUrl);
+           var actualUrl = UrlRepository.findByName(url);
+            assertThat(actualUrl).isNotNull();
+            System.out.println("\n!!!!!");
+            System.out.println(actualUrl);
 
-//            System.out.println("\n");
-//            assertThat(actualUrl.get("name").toString()).isEqualTo(url);
+            System.out.println("\n");
+            assertThat(actualUrl.getAddress().toString()).isEqualTo(url);
 
-//            client.post("/urls/" + actualUrl.get("id") + "/checks");
+            client.post("/urls/" + actualUrl.getId() + "/checks");
 
-//            assertThat(client.get("/urls/" + actualUrl.get("id")).code())
-//                    .isEqualTo(200);
-//
-//            var actualCheck = TestUtils.getUrlCheck(dataSource, (long) actualUrl.get("id"));
-//            assertThat(actualCheck).isNotNull();
-//            assertThat(actualCheck.get("title")).isEqualTo("Test page");
-//            assertThat(actualCheck.get("h1")).isEqualTo("Do not expect a miracle, miracles yourself!");
-//            assertThat(actualCheck.get("description")).isEqualTo("statements of great people");
+            assertThat(client.get("/urls/" + actualUrl.getId()).code())
+                    .isEqualTo(200);
+
+            var actualCheck = CheckRepository.findByUrlId(actualUrl.getId());
+            assertThat(actualCheck).isNotNull();
+            assertThat(actualCheck.getTitle()).isEqualTo("Test title");
+            assertThat(actualCheck.getH1()).isEqualTo("Test header");
+            assertThat(actualCheck.getDescription()).isEqualTo("test description");
         });
     }
 
@@ -143,8 +143,9 @@ class AppTest {
         JavalinTest.test(app, (server, client) -> {
             var requestBody = "url=http://www.ya.ru";
             var response = client.post(NamedRoutes.urlList(), requestBody);
+            var check = UrlRepository.findByName("http://www.ya.ru");
             assertThat(response.code()).isEqualTo(200);
-            assertThat(!UrlRepository.findByName("http://www.ya.ru").isEmpty());
+            assertThat(check != null);
         });
     }
 

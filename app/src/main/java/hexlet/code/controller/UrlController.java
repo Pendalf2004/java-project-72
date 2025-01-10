@@ -43,7 +43,7 @@ public class UrlController {
             URI uriPath = new URI(ctx.formParam("url"));
             String urlPath = uriPath.getScheme() + "://"
                     + uriPath.getAuthority();
-            if (UrlRepository.findByName(urlPath).isEmpty()) {
+            if (UrlRepository.findByName(urlPath) == null) {
                 UrlRepository.addURL(new UrlModel(urlPath));
                 message = "Страница успешно добавлена";
             } else {

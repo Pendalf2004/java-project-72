@@ -68,10 +68,17 @@ public class UrlRepository extends BaseDB {
         }
     }
 
-    public static List<UrlModel> findByName(String address) {
-        return urls.stream()
-                .filter(entity -> entity.getAddress().contains(address))
-                .toList();
+    public static UrlModel findByName(String address) {
+        UrlModel result = null;
+        try {
+            result = urls.stream()
+                    .filter(entity -> entity.getAddress().contains(address))
+                    .toList()
+                    .getFirst();
+        } catch (Exception e) {
+            return result;
+        }
+        return result;
     }
 
     public static List<UrlModel> withLatestCheck() {

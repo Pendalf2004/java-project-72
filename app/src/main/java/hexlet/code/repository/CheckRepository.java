@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CheckRepository extends BaseDB {
     protected static List<CheckModel> checks = new ArrayList<CheckModel>();
@@ -39,7 +40,7 @@ public class CheckRepository extends BaseDB {
     public static List<CheckModel> findAllByUrlId(Long urlId) throws SQLException {
         String query =  "SELECT * FROM url_checks "
                 +       "WHERE urlId = " + urlId
-                +       "ORDER BY id DESC;";
+                +       " ORDER BY id DESC;";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             var checksList = preparedStatement.executeQuery();
@@ -56,5 +57,13 @@ public class CheckRepository extends BaseDB {
             }
             return result;
         }
+    }
+
+    public static CheckModel findByUrlId(Long urlId) {
+        var result = checks.stream()
+                .filter(check -> Objects.equals(check.getUrlId(), urlId))
+                .findAny()
+                .get();
+        return result;
     }
 }

@@ -41,8 +41,6 @@ public class DBUtils {
         if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
             // подгружаются драйвера автоматически
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
-        } else {
-            hikariConfig.setDriverClassName(org.h2.Driver.class.getName());
         }
         dataSource = new HikariDataSource(hikariConfig);
         BaseDB.dataSource = dataSource;
