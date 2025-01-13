@@ -8,6 +8,7 @@ import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
+import hexlet.code.repository.BaseDB;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import hexlet.code.utils.DBUtils;
@@ -60,7 +61,7 @@ public class App {
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         }
         dataSource = new HikariDataSource(hikariConfig);
-//        BaseDB.dataSource = dataSource;
+        BaseDB.dataSource = dataSource;
 
         String query = "";
         try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
