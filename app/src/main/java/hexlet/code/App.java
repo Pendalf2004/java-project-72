@@ -26,6 +26,27 @@ public class App {
 
     public static void main(String[] args) throws SQLException, IOException {
         //DBUtils.createDB();
+        var hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(getDbConfig());
+        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
+            // подгружаются драйвера автоматически
+            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+        }
+        dataSource = new HikariDataSource(hikariConfig);
+        BaseDB.dataSource = dataSource;
+
+        String query = "";
+        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
+            query = new BufferedReader(new InputStreamReader(queryFile))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+        } finally {
+            try (var connection = dataSource.getConnection();
+                 var statement = connection.createStatement()) {
+                statement.execute(query);
+            }
+        }
+
         var page = getApp();
         page.start(DBUtils.getPort());
     }
