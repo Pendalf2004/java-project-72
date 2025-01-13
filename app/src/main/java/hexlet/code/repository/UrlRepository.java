@@ -5,7 +5,9 @@ import hexlet.code.model.UrlModel;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +17,12 @@ public class UrlRepository extends BaseDB {
 
 
     public static void addURL(UrlModel url) throws SQLException {
-        String query = "INSERT INTO urls (name) VALUES (?)";
+        String query = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
+        var date = new Date();
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, url.getName());
+            preparedStatement.setTimestamp(2, new Timestamp(date.getTime()));
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
