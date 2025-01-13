@@ -1,92 +1,56 @@
 package hexlet.code;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
+import hexlet.code.repository.BaseDB;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import hexlet.code.utils.DBUtils;
 import hexlet.code.utils.NamedRoutes;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
+
+import static hexlet.code.utils.DBUtils.getDbConfig;
 
 
 public class App {
     public static HikariDataSource dataSource;
 
     public static void main(String[] args) throws SQLException, IOException {
-//        //DBUtils.createDB();
-//        var hikariConfig = new HikariConfig();
-//        hikariConfig.setJdbcUrl(getDbConfig());
-//        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
-//            // подгружаются драйвера автоматически
-//            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
-//        }
-//        dataSource = new HikariDataSource(hikariConfig);
-//        BaseDB.dataSource = dataSource;
-//
-//        String query = "";
-//        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
-//            query = new BufferedReader(new InputStreamReader(queryFile))
-//                    .lines()
-//                    .collect(Collectors.joining("\n"));
-//        } finally {
-//            try (var connection = dataSource.getConnection();
-//                 var statement = connection.createStatement()) {
-//                statement.execute(query);
-//            }
-//        }
-
         var page = getApp();
         page.start(DBUtils.getPort());
     }
-//
-//    public static int getPort() {
-//        String port = System.getenv().getOrDefault("PORT", "7070");
-//        return Integer.parseInt(port);
-//    }
-//
-//    public static TemplateEngine createTemplateEngine() {
-//        ClassLoader classLoader = DBUtils.class.getClassLoader();
-//        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates/jte", classLoader);
-//        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
-//        return templateEngine;
-//    }
-//
-//    public static String getDbConfig() {
-//        return System.getenv().getOrDefault(
-//                "JDBC_DATABASE_URL",
-//                //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
-//                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
-//    }
-//
-//    public static void createDB() throws SQLException, IOException {
-//        var hikariConfig = new HikariConfig();
-//        hikariConfig.setJdbcUrl(getDbConfig());
-//        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
-//            // подгружаются драйвера автоматически
-//            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
-//        }
-//        dataSource = new HikariDataSource(hikariConfig);
-//        BaseDB.dataSource = dataSource;
-//
-//        String query = "";
-//        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
-//            query = new BufferedReader(new InputStreamReader(queryFile))
-//                    .lines()
-//                    .collect(Collectors.joining("\n"));
-//        } finally {
-//            try (var connection = dataSource.getConnection();
-//                 var statement = connection.createStatement()) {
-//                statement.execute(query);
-//            }
-//        }
-//    }
 
     public static Javalin getApp() throws SQLException, IOException {
-        DBUtils.createDB();
+//        DBUtils.createDB();
+        var hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(getDbConfig());
+        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
+            // подгружаются драйвера автоматически
+            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+        }
+        dataSource = new HikariDataSource(hikariConfig);
+        BaseDB.dataSource = dataSource;
+
+        String query = "";
+        try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
+            query = new BufferedReader(new InputStreamReader(queryFile))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+        } finally {
+            try (var connection = dataSource.getConnection();
+                 var statement = connection.createStatement()) {
+                statement.execute(query);
+            }
+        }
+
         var renderPage = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(DBUtils.createTemplateEngine()));
