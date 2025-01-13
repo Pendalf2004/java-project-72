@@ -26,7 +26,7 @@ content = @`
                         ${url.getId()}
                     </td>
                     <td>
-                        <a href="${NamedRoutes.urlPath(url.getId())}">${url.getAddress()}</a>
+                        <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a>
                     </td>
                     <td>
                         @if(url.getLastCheckTime() != null)

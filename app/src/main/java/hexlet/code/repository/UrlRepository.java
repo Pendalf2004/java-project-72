@@ -15,10 +15,10 @@ public class UrlRepository extends BaseDB {
 
 
     public static void addURL(UrlModel url) throws SQLException {
-        String query = "INSERT INTO urls (address) VALUES (?)";
+        String query = "INSERT INTO urls (name) VALUES (?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, url.getAddress());
+            preparedStatement.setString(1, url.getName());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -43,7 +43,7 @@ public class UrlRepository extends BaseDB {
             preparedStatement.setLong(1, id);
             var urlList = preparedStatement.executeQuery();
             if (urlList.next()) {
-                var url = new UrlModel(urlList.getString("address"));
+                var url = new UrlModel(urlList.getString("name"));
                 url.setCreated(urlList.getTimestamp("created_at"));
                 url.setId(id);
                 return Optional.of(url);
@@ -59,7 +59,7 @@ public class UrlRepository extends BaseDB {
             var urlList = preparedStatement.executeQuery();
             var result = new ArrayList<UrlModel>();
             while (urlList.next()) {
-                var url = new UrlModel(urlList.getString("address"));
+                var url = new UrlModel(urlList.getString("name"));
                 url.setId(urlList.getLong("id"));
                 url.setCreated(urlList.getTimestamp("created_at"));
                 result.add(url);
@@ -72,7 +72,7 @@ public class UrlRepository extends BaseDB {
         UrlModel result = null;
         try {
             result = urls.stream()
-                    .filter(entity -> entity.getAddress().contains(address))
+                    .filter(entity -> entity.getName().contains(address))
                     .toList()
                     .getFirst();
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class UrlRepository extends BaseDB {
         var result = new ArrayList<UrlModel>();
         String query = "SELECT DISTINCT ON (urls.id)"
                 + "                    urls.id, "
-                + "                    urls.address, "
+                + "                    urls.name, "
                 + "                    urls.created_at AS created, "
                 + "                    url_checks.created_at AS last_check, "
                 + "                    url_checks.statusCode  AS status_code"
@@ -96,7 +96,7 @@ public class UrlRepository extends BaseDB {
              var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();
             while (urlList.next()) {
-                var url = new UrlModel(urlList.getString("address"));
+                var url = new UrlModel(urlList.getString("name"));
                 url.setId(urlList.getLong("id"));
                 url.setCreated(urlList.getTimestamp("created"));
                 url.setLastCheckTime(urlList.getTimestamp("last_check"));

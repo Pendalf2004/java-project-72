@@ -9,7 +9,7 @@
 content = @`
 
     <div>
-        <h1>Сайт: ${urlDetails.getUrl().getAddress()}</h1>
+        <h1>Сайт: ${urlDetails.getUrl().getName()}</h1>
         <table class="table-primary table table-striped-columns">
             <tbody>
             <tr>
@@ -18,7 +18,7 @@ content = @`
             </tr>
             <tr>
                 <td>Адрес</td>
-                <td>${urlDetails.getUrl().getAddress()}</td>
+                <td>${urlDetails.getUrl().getName()}</td>
             </tr>
             <tr>
                 <td>Дата создания</td>

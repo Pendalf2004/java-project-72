@@ -72,7 +72,7 @@ class AppTest {
             System.out.println(actualUrl);
 
             System.out.println("\n");
-            assertThat(actualUrl.getAddress().toString()).isEqualTo(url);
+            assertThat(actualUrl.getName().toString()).isEqualTo(url);
 
             client.post("/urls/" + actualUrl.getId() + "/checks");
 

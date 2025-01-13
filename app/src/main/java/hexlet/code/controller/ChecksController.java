@@ -21,7 +21,7 @@ public class ChecksController {
                 .orElseThrow(() -> new NotFoundResponse("No such url"));
         var check = new CheckModel(urlId);
         try {
-            HttpResponse<String> response = Unirest.get(url.getAddress()).asString();
+            HttpResponse<String> response = Unirest.get(url.getName()).asString();
             int statusCode = response.getStatus();
             var responseBody = response.getBody();
             check.setStatusCode(statusCode);

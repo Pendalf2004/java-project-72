@@ -14,12 +14,12 @@ import java.sql.Timestamp;
 
 public class UrlModel {
     private Long        id;
-    private String      address;
+    private String      name;
     private Timestamp   created;
     private Timestamp   lastCheckTime;
     private Integer     statusCode;
 
-    public UrlModel(String address) {
-        this.address = address;
+    public UrlModel(String name) {
+        this.name = name;
     }
 }
