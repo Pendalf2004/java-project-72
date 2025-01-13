@@ -12,6 +12,7 @@ import hexlet.code.repository.UrlRepository;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -40,9 +41,12 @@ public class UrlController {
             if (ctx.formParam("url").isEmpty() || ctx.formParam("url").isEmpty()) {
                 throw new NullPointerException();
             }
-            URI uriPath = new URI(ctx.formParam("url"));
-            String urlPath = uriPath.getScheme() + "://"
-                    + uriPath.getAuthority();
+            URL url = new URI(ctx.formParam("url")).toURL();
+            String protocol = url.getProtocol() + "://";
+            String host = url.getHost();
+            int port = url.getPort();
+            String urlPath = port == -1 ? protocol + host
+                    : protocol + host + ":" + port;
             if (UrlRepository.findByName(urlPath) == null) {
                 UrlRepository.addURL(new UrlModel(urlPath));
                 message = "Страница успешно добавлена";

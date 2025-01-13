@@ -21,14 +21,17 @@ public class ChecksController {
                 .orElseThrow(() -> new NotFoundResponse("No such url"));
         var check = new CheckModel(urlId);
         try {
-            HttpResponse<String> response = Unirest.get(url.getName()).asString();
+            var urlPath = url.getName();
+            HttpResponse<String> response = Unirest.get(urlPath).asString();
             int statusCode = response.getStatus();
             var responseBody = response.getBody();
             check.setStatusCode(statusCode);
             Document document = Jsoup.parse(responseBody);
             check.setTitle(document.title());
             check.setH1(document.select("h1").text());
-            check.setDescription(document.select("meta").attr("content"));
+            var description = document.select("meta").attr("content") == null ? ""
+                    : document.select("meta").attr("content");
+            check.setDescription(description);
             CheckRepository.addCheck(check);
         } catch (Exception e) {
             ctx.redirect(NamedRoutes.urlList());
