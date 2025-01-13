@@ -2,10 +2,12 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.ResourceCodeResolver;
 import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
-import hexlet.code.repository.BaseDB;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import hexlet.code.utils.DBUtils;
@@ -25,8 +27,28 @@ public class App {
 
     public static void main(String[] args) throws SQLException, IOException {
         var page = getApp();
-        page.start(DBUtils.getPort());
+        page.start(getPort());
     }
+
+    public static int getPort() {
+        String port = System.getenv().getOrDefault("PORT", "7070");
+        return Integer.parseInt(port);
+    }
+
+    public static TemplateEngine createTemplateEngine() {
+        ClassLoader classLoader = DBUtils.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates/jte", classLoader);
+        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+        return templateEngine;
+    }
+
+    public static String getDbConfig() {
+        return System.getenv().getOrDefault(
+                "JDBC_DATABASE_URL",
+                //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
+                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+    }
+
 
     public static Javalin getApp() throws SQLException, IOException {
 //        DBUtils.createDB();
@@ -37,7 +59,7 @@ public class App {
             hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
         }
         dataSource = new HikariDataSource(hikariConfig);
-        BaseDB.dataSource = dataSource;
+//        BaseDB.dataSource = dataSource;
 
         String query = "";
         try (var queryFile = ClassLoader.getSystemClassLoader().getResourceAsStream("schema.sql")) {
@@ -53,7 +75,7 @@ public class App {
 
         var renderPage = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
-            config.fileRenderer(new JavalinJte(DBUtils.createTemplateEngine()));
+            config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
         renderPage.get(NamedRoutes.root(), RootController::showRoot);
