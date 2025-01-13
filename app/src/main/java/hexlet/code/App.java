@@ -46,13 +46,14 @@ public class App {
         return System.getenv().getOrDefault(
                 "JDBC_DATABASE_URL",
                 //"jdbc:postgresql://localhost/postgres?password=password&user=postgres");
-                "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;");
+                "jdbc:h2:mem:project");
     }
 
 
     public static Javalin getApp() throws SQLException, IOException {
 //        DBUtils.createDB();
         var hikariConfig = new HikariConfig();
+        hikariConfig.setMaximumPoolSize(1);
         hikariConfig.setJdbcUrl(getDbConfig());
         if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
             // подгружаются драйвера автоматически
