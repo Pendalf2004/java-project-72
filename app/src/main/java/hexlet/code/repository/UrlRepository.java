@@ -92,10 +92,10 @@ public class UrlRepository extends BaseDB {
                 + "                    urls.name, "
                 + "                    urls.created_at AS created, "
                 + "                    url_checks.created_at AS last_check, "
-                + "                    url_checks.statusCode  AS status_code"
+                + "                    url_checks.status_code  AS status_code"
                 + "                FROM urls "
                 + "                LEFT JOIN url_checks ON "
-                + "                    (url_checks.urlId = urls.id)";
+                + "                    (url_checks.url_id = urls.id)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             var urlList = preparedStatement.executeQuery();

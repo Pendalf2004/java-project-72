@@ -13,7 +13,7 @@ public class CheckRepository extends BaseDB {
 
     public static void addCheck(CheckModel check) throws SQLException {
         String query =
-                "INSERT INTO url_checks (urlId, statusCode, title, h1, description) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO url_checks (url_id, status_code, title, h1, description) VALUES (?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, check.getUrlId());
@@ -39,19 +39,19 @@ public class CheckRepository extends BaseDB {
 
     public static List<CheckModel> findAllByUrlId(Long urlId) throws SQLException {
         String query =  "SELECT * FROM url_checks "
-                +       "WHERE urlId = " + urlId
+                +       "WHERE url_id = " + urlId
                 +       " ORDER BY id DESC;";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query)) {
             var checksList = preparedStatement.executeQuery();
             var result = new ArrayList<CheckModel>();
             while (checksList.next()) {
-                var check = new CheckModel(checksList.getLong("urlId"));
+                var check = new CheckModel(checksList.getLong("url_id"));
                 check.setId(checksList.getLong("id"));
                 check.setTitle(checksList.getString("title"));
                 check.setH1(checksList.getString("h1"));
                 check.setDescription(checksList.getString("description"));
-                check.setStatusCode(checksList.getInt("statusCode"));
+                check.setStatusCode(checksList.getInt("status_code"));
                 check.setCreatedAt(checksList.getTimestamp("created_at"));
                 result.add(check);
             }
