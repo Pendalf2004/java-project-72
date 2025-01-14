@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.repository.BaseDB;
 import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
@@ -8,6 +9,7 @@ import hexlet.code.model.CheckModel;
 import hexlet.code.model.UrlModel;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,11 +21,11 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import io.javalin.testtools.JavalinTest;
-import hexlet.code.utils.DBUtils;
 import hexlet.code.utils.NamedRoutes;
 
 class AppTest {
     static Javalin app;
+
     private static final String RES_FOLDER = System.getProperty("user.dir")
             + "/src/test/resources/";
 
@@ -44,7 +46,6 @@ class AppTest {
 
     @BeforeEach
     public final void setUp() throws IOException, SQLException {
-        DBUtils.createDB();
         app = App.getApp();
     }
 
@@ -57,35 +58,35 @@ class AppTest {
         });
     }
 
-//    @Test
-//    void testStore() {
-//        MockWebServer mock = new MockWebServer();
-//        String url = mock.url("/").toString().replaceAll("/$", "");
-//
-//        JavalinTest.test(app, (server, client) -> {
-//            var requestBody = "url=" + url;
-//            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
-//
-//            var actualUrl = UrlRepository.findByName(url);
-//            assertThat(actualUrl).isNotNull();
-//            System.out.println("\n!!!!!");
-//            System.out.println(actualUrl);
-//
-//            System.out.println("\n");
-//            assertThat(actualUrl.getName().toString()).isEqualTo(url);
-//
-//            client.post("/urls/" + actualUrl.getId() + "/checks");
-//
-//            assertThat(client.get("/urls/" + actualUrl.getId()).code())
-//                    .isEqualTo(200);
-//
-//            var actualCheck = CheckRepository.findByUrlId(actualUrl.getId());
-//            assertThat(actualCheck).isNotNull();
-//            assertThat(actualCheck.getTitle()).isEqualTo("Test title");
-//            assertThat(actualCheck.getH1()).isEqualTo("Test header");
-//            assertThat(actualCheck.getDescription()).isEqualTo("test description");
-//        });
-//    }
+    @Test
+    void testStore() {
+        MockWebServer mock = new MockWebServer();
+        String url = mock.url("/").toString().replaceAll("/$", "");
+
+        JavalinTest.test(app, (server, client) -> {
+            var requestBody = "url=" + url;
+            assertThat(client.post("/urls", requestBody).code()).isEqualTo(200);
+
+            var actualUrl = UrlRepository.findByName(url);
+            assertThat(actualUrl).isNotNull();
+            System.out.println("\n!!!!!");
+            System.out.println(actualUrl);
+
+            System.out.println("\n");
+            assertThat(actualUrl.getName().toString()).isEqualTo(url);
+
+            client.post("/urls/" + actualUrl.getId() + "/checks");
+
+            assertThat(client.get("/urls/" + actualUrl.getId()).code())
+                    .isEqualTo(200);
+
+            var actualCheck = CheckRepository.findByUrlId(actualUrl.getId());
+            assertThat(actualCheck).isNotNull();
+            assertThat(actualCheck.getTitle()).isEqualTo("Test title");
+            assertThat(actualCheck.getH1()).isEqualTo("Test header");
+            assertThat(actualCheck.getDescription()).isEqualTo("test description");
+        });
+    }
 
     @Test
     public void testUrlListPage() {

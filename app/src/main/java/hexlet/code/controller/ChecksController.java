@@ -26,16 +26,14 @@ public class ChecksController {
         String message = "Проверка пройдена";
         try {
             var urlPath = url.getName();
-            HttpResponse<String> response = Unirest.get(urlPath).asString();
+            var response = Unirest.get(urlPath).asString();
             int statusCode = response.getStatus();
-            var responseBody = response.getBody();
+            String responseBody = response.getBody();
             check.setStatusCode(statusCode);
             Document document = Jsoup.parse(responseBody);
             check.setTitle(document.title());
-            check.setH1(document.select("h1").text());
-            var description = document.select("meta").attr("content") == null ? ""
-                    : document.select("meta").attr("content");
-            check.setDescription(description);
+            check.setH1(parseH1(document));
+            check.setDescription(parseDescription(document));
             CheckRepository.addCheck(check);
             ctx.sessionAttribute("msg", message);
         } catch (Exception e) {
@@ -46,5 +44,17 @@ public class ChecksController {
             inputData.setMsg(ctx.consumeSessionAttribute("msg"));
             ctx.render("paths/urlDetails.jte", model("urlDetails", inputData));
         }
+    }
+
+    private static String parseH1(Document body) {
+        var h1 = body.select("h1").isEmpty() ? "" : body.selectFirst("h1").text();
+        return h1;
+    }
+
+    private static String parseDescription(Document body) {
+    var description = ((body.select("meta").isEmpty())
+        || body.select("meta[name=description]").hasAttr("content"))
+        ? body.selectFirst("meta[name=description]").attr("content") : "";
+        return description;
     }
 }

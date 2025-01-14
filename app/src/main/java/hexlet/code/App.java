@@ -11,7 +11,6 @@ import hexlet.code.controller.UrlController;
 import hexlet.code.repository.BaseDB;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
-import hexlet.code.utils.DBUtils;
 import hexlet.code.utils.NamedRoutes;
 
 import java.io.BufferedReader;
@@ -34,7 +33,7 @@ public class App {
     }
 
     public static TemplateEngine createTemplateEngine() {
-        ClassLoader classLoader = DBUtils.class.getClassLoader();
+        ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates/jte", classLoader);
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
         return templateEngine;
@@ -49,14 +48,13 @@ public class App {
 
 
     public static Javalin getApp() throws SQLException, IOException {
-//        DBUtils.createDB();
         var hikariConfig = new HikariConfig();
-        hikariConfig.setMaximumPoolSize(1);
+//        hikariConfig.setMaximumPoolSize(1);
         hikariConfig.setJdbcUrl(getDbConfig());
-        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
-            // подгружаются драйвера автоматически
-            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
-        }
+//        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
+//            // подгружаются драйвера автоматически
+//            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+//        }
         dataSource = new HikariDataSource(hikariConfig);
         BaseDB.dataSource = dataSource;
 
@@ -83,6 +81,7 @@ public class App {
         renderPage.get(NamedRoutes.urlList(), UrlController::showList);
         renderPage.get(NamedRoutes.urlPath("{id}"), UrlController::showURL);
 
+        renderPage.get(NamedRoutes.checkPath("{id}"), UrlController::showURL);
         renderPage.post(NamedRoutes.checkPath("{id}"), ChecksController::check);
         return renderPage;
     }
