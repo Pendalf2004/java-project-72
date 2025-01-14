@@ -49,12 +49,13 @@ public class App {
 
     public static Javalin getApp() throws SQLException, IOException {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setMaximumPoolSize(1);
+//        hikariConfig.setMaximumPoolSize(1);
+        hikariConfig.setConnectionTimeout(10000);
         hikariConfig.setJdbcUrl(getDbConfig());
-//        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
-//            // подгружаются драйвера автоматически
-//            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
-//        }
+        if (hikariConfig.getJdbcUrl().startsWith("jdbc:postgresql")) { //почему-то для postgre не
+            // подгружаются драйвера автоматически
+            hikariConfig.setDriverClassName(org.postgresql.Driver.class.getName());
+        }
         dataSource = new HikariDataSource(hikariConfig);
         BaseDB.dataSource = dataSource;
 
