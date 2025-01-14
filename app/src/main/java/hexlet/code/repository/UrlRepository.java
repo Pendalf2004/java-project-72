@@ -76,7 +76,7 @@ public class UrlRepository extends BaseDB {
         UrlModel result = null;
         try {
             result = urls.stream()
-                    .filter(entity -> entity.getName().contains(address))
+                    .filter(entity -> entity.getName().equals(address))
                     .toList()
                     .getFirst();
         } catch (Exception e) {

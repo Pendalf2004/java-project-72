@@ -1,5 +1,8 @@
 @import gg.jte.Content
+@import hexlet.code.datatemplate.BasePage
+
 @param Content content
+@param BasePage data = null
 
 <!doctype html>
     <html lang="en">
@@ -11,7 +14,13 @@
         </head>
         <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-        ${content}
+        @if(data != null && data.getMsg() != null)
+            <div class="alert alert-primary" role="alert">
+                <p>${data.getMsg()}</p>
+            </div>
+        @endif
+        <main>
+            ${content}
+        </main>
         </body>
     </html>

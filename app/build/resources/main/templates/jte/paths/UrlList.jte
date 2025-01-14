@@ -5,7 +5,6 @@
 
 @template.layout.template(
 content = @`
-    <main>
     <h2>Список страниц</h2>
     <hr>
         ${urlListData.getMsg()}
@@ -43,6 +42,5 @@ content = @`
         @endif
     <hr>
     <a href="${NamedRoutes.root()}">На главную</a>
-    </main>
 `
 )

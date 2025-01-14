@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.datatemplate.paths.UrlPage;
 import io.javalin.http.Context;
 
 import io.javalin.http.NotFoundResponse;
@@ -11,15 +12,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
-import hexlet.code.utils.NamedRoutes;
+import java.sql.SQLException;
+
+import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class ChecksController {
 
-    public static void check(Context ctx) {
+    public static void check(Context ctx) throws SQLException {
         var urlId = ctx.pathParamAsClass("id", Long.class).get();
         UrlModel url = UrlRepository.findById(urlId)
                 .orElseThrow(() -> new NotFoundResponse("No such url"));
         var check = new CheckModel(urlId);
+        String message = "Проверка пройдена";
         try {
             var urlPath = url.getName();
             HttpResponse<String> response = Unirest.get(urlPath).asString();
@@ -33,10 +37,14 @@ public class ChecksController {
                     : document.select("meta").attr("content");
             check.setDescription(description);
             CheckRepository.addCheck(check);
+            ctx.sessionAttribute("msg", message);
         } catch (Exception e) {
-            ctx.redirect(NamedRoutes.urlList());
+            message = e.getMessage();
+            ctx.sessionAttribute("msg", message);
         } finally {
-            ctx.redirect(NamedRoutes.urlPath(urlId));
+            var inputData = new UrlPage(url, CheckRepository.findAllByUrlId(urlId));
+            inputData.setMsg(ctx.consumeSessionAttribute("msg"));
+            ctx.render("paths/urlDetails.jte", model("urlDetails", inputData));
         }
     }
 }

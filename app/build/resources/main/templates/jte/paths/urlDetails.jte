@@ -6,8 +6,8 @@
 @param UrlPage urlDetails
 
 @template.layout.template(
+    data = urlDetails,
 content = @`
-
     <div>
         <h1>Сайт: ${urlDetails.getUrl().getName()}</h1>
         <table class="table-primary table table-striped-columns">

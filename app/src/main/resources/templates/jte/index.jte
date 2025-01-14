@@ -1,15 +1,11 @@
-@import hexlet.code.datatemplate.paths.RootPage
+@import hexlet.code.datatemplate.BasePage
 @import hexlet.code.utils.NamedRoutes
-@param  RootPage data
+
+@param  BasePage data
 
 @template.layout.template(
+    data = data,
     content = @`
-        @if(data != null && data.getMsg() != null)
-           <div class="alert alert-primary" role="alert">
-               <p>${data.getMsg()}</p>
-           </div>
-        @endif
-        <main>
         <div class="p-2 m-2">
                 <h2>Hello world</h2>
                 <hr>
@@ -25,6 +21,5 @@
                 <hr>
         </div>
             <a href="${NamedRoutes.urlList()}">Список страниц</a>
-        </main>
     `
 )

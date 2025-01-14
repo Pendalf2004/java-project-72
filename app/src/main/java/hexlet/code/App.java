@@ -20,9 +20,6 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-import static hexlet.code.utils.DBUtils.getDbConfig;
-
-
 public class App {
     public static HikariDataSource dataSource;
 

@@ -31,7 +31,6 @@ public class UrlController {
         var checks = CheckRepository.findAllByUrlId(url.getId());
         var inputData = new UrlPage(url, checks);
         ctx.render("paths/urlDetails.jte", model("urlDetails", inputData));
-
     }
 
     @SneakyThrows
