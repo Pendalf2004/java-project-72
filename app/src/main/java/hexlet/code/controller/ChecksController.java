@@ -52,8 +52,8 @@ public class ChecksController {
 
     private static String parseDescription(Document body) {
         var description = ((body.select("meta").isEmpty())
-        || body.select("meta[name=description]").hasAttr("content"))
-        ? body.selectFirst("meta[name=description]").attr("content") : "";
+            || body.select("meta[name=description]").hasAttr("content"))
+            ? body.selectFirst("meta[name=description]").attr("content") : "";
         return description;
     }
 }
