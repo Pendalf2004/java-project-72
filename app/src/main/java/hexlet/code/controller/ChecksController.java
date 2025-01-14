@@ -4,7 +4,6 @@ import hexlet.code.datatemplate.paths.UrlPage;
 import io.javalin.http.Context;
 
 import io.javalin.http.NotFoundResponse;
-import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import hexlet.code.model.CheckModel;
 import hexlet.code.model.UrlModel;
@@ -52,7 +51,7 @@ public class ChecksController {
     }
 
     private static String parseDescription(Document body) {
-    var description = ((body.select("meta").isEmpty())
+        var description = ((body.select("meta").isEmpty())
         || body.select("meta[name=description]").hasAttr("content"))
         ? body.selectFirst("meta[name=description]").attr("content") : "";
         return description;
