@@ -49,6 +49,7 @@ public class App {
 
     public static Javalin getApp() throws SQLException, IOException {
         var hikariConfig = new HikariConfig();
+        hikariConfig.setMaximumPoolSize(50);
         hikariConfig.setMinimumIdle(5);
         hikariConfig.setMaximumPoolSize(50);
         hikariConfig.setConnectionTimeout(10000);

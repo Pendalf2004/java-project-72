@@ -23,16 +23,16 @@ public class CheckRepository extends BaseDB {
             preparedStatement.setString(5, check.getDescription());
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
-//            if (generatedKeys.next()) {
-//                check.setId(generatedKeys.getLong(1));
-//                if (dataSource.getJdbcUrl().startsWith("jdbc:h2")) {        //  тут костыль, потому, что h2 возвращает
-//                    check.setCreatedAt(generatedKeys.getTimestamp(2));   //  в generatedKeys только сгенерированные
-//                } else {                                                    //  поля, а postgre - все
-//                    check.setCreatedAt(generatedKeys.getTimestamp(7));
-//                }
-//            } else {
-//                throw new SQLException("Database have not returned an id or createdAt after saving an entity");
-//            }
+            if (generatedKeys.next()) {
+                check.setId(generatedKeys.getLong(1));
+                if (dataSource.getJdbcUrl().startsWith("jdbc:h2")) {        //  тут костыль, потому, что h2 возвращает
+                    check.setCreatedAt(generatedKeys.getTimestamp(2));   //  в generatedKeys только сгенерированные
+                } else {                                                    //  поля, а postgre - все
+                    check.setCreatedAt(generatedKeys.getTimestamp(7));
+                }
+            } else {
+                throw new SQLException("Database have not returned an id or createdAt after saving an entity");
+            }
             checks.add(check);
         }
     }
