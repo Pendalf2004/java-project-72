@@ -14,8 +14,8 @@ public class CheckRepository extends BaseDB {
 
     public static void addCheck(CheckModel check) throws SQLException {
         String query =
-                "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) " +
-                        "VALUES (?, ?, ?, ?, ?, ?)";
+                "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) "
+                        + "VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, check.getUrlId());
