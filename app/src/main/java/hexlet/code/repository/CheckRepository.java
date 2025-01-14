@@ -4,6 +4,7 @@ import hexlet.code.model.CheckModel;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,8 @@ public class CheckRepository extends BaseDB {
 
     public static void addCheck(CheckModel check) throws SQLException {
         String query =
-                "INSERT INTO url_checks (url_id, status_code, title, h1, description) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) " +
+                        "VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, check.getUrlId());
@@ -21,6 +23,7 @@ public class CheckRepository extends BaseDB {
             preparedStatement.setString(3, check.getTitle());
             preparedStatement.setString(4, check.getH1());
             preparedStatement.setString(5, check.getDescription());
+            preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
             preparedStatement.executeUpdate();
             var generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
