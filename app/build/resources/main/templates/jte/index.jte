@@ -7,7 +7,7 @@
     data = data,
     content = @`
         <div class="p-2 m-2">
-                <h2>Hello world</h2>
+                <h2>Анализ страниц на наличие параметров для SE </h2>
                 <hr>
                 <form action="${hexlet.code.utils.NamedRoutes.urlList()}" method="post">
                     <div>

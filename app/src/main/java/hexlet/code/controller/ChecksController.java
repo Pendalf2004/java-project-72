@@ -36,7 +36,7 @@ public class ChecksController {
             CheckRepository.addCheck(check);
             ctx.sessionAttribute("msg", message);
         } catch (Exception e) {
-            message = e.getMessage();
+            message = "Ошибка при обращении к странице - " + url.getName();
             ctx.sessionAttribute("msg", message);
         } finally {
             var inputData = new UrlPage(url, CheckRepository.findAllByUrlId(urlId));

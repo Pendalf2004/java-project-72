@@ -4,7 +4,6 @@ import hexlet.code.datatemplate.BasePage;
 import hexlet.code.datatemplate.paths.ListPage;
 import hexlet.code.datatemplate.paths.UrlPage;
 import hexlet.code.model.UrlModel;
-import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import lombok.SneakyThrows;
@@ -15,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
