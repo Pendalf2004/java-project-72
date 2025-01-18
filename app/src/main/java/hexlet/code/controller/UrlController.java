@@ -1,5 +1,6 @@
 package hexlet.code.controller;
 
+import hexlet.code.datatemplate.BasePage;
 import hexlet.code.datatemplate.paths.ListPage;
 import hexlet.code.datatemplate.paths.UrlPage;
 import hexlet.code.model.UrlModel;
@@ -10,9 +11,11 @@ import lombok.SneakyThrows;
 import hexlet.code.repository.CheckRepository;
 import hexlet.code.repository.UrlRepository;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -49,15 +52,29 @@ public class UrlController {
             if (UrlRepository.findByName(urlPath) == null) {
                 UrlRepository.addURL(new UrlModel(urlPath));
                 message = "Страница успешно добавлена";
+                var inputData = new ListPage(UrlRepository.getAll());
+                inputData.setMsg(message);
+                ctx.render("paths/UrlList.jte", model("urlListData", inputData));
             } else {
                 message = "Страница уже существует";
+                throw new IllegalAccessException();
             }
 
-        } catch (URISyntaxException | NullPointerException | IllegalArgumentException e) {
-            message = "Некорректный URL";
-        } finally {
-            ctx.sessionAttribute("msg", message);
-            ctx.redirect(NamedRoutes.root());
+        } catch (URISyntaxException | NullPointerException | IllegalArgumentException | MalformedURLException e) {
+            var inputData = new BasePage();
+            inputData.setMsg("Неверный адрес");
+            ctx.render("index.jte", model("data", inputData));
+
+        } catch (IllegalAccessException e) {
+            var inputData = new BasePage();
+            inputData.setMsg(message);
+            ctx.render("index.jte", model("data", inputData));
+
         }
+
+//            ctx.sessionAttribute("msg", message);
+//            var inputData = new ListPage(UrlRepository.getAll());
+//            inputData.setMsg(ctx.consumeSessionAttribute("msg"));
+//            ctx.render("paths/UrlList.jte", model("urlListData", inputData));
     }
 }

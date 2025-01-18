@@ -67,4 +67,3 @@ tasks.jacocoTestReport {
 tasks.shadowJar{
     destinationDirectory.set(file(System.getProperty("user.dir")))
 }
-

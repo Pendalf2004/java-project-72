@@ -1,13 +1,15 @@
 @import hexlet.code.datatemplate.paths.ListPage
 @import hexlet.code.repository.UrlRepository
 @import hexlet.code.utils.NamedRoutes
+
 @param  ListPage urlListData
 
 @template.layout.template(
+    data = urlListData,
 content = @`
+
     <h2>Список страниц</h2>
     <hr>
-        ${urlListData.getMsg()}
         @if(urlListData != null)
             <table class="w-75 p-3">
                 <thead>
