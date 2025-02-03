@@ -1,5 +1,6 @@
 @import gg.jte.Content
 @import hexlet.code.datatemplate.BasePage
+@import hexlet.code.utils.NamedRoutes
 
 @param Content content
 @param BasePage data = null
@@ -20,6 +21,20 @@
                 <p>${data.getMsg()}</p>
             </div>
         @endif
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="${NamedRoutes.root()}">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${NamedRoutes.urlList()}">Список страниц</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <main>
             ${content}
         </main>
