@@ -13,7 +13,7 @@
                     <div>
                         <label for="urlInput" class="form-label">
                             Имя
-                            <input class="form-control" placeholder="url" id="urlInput" aria-describedby="emailHelp" type="url" name="url" class = "w-100"/>
+                            <input class="form-control" placeholder="url" id="urlInput" aria-describedby="emailHelp" type="url" name="url"/>
                         </label>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Добавить адрес страницы" />
