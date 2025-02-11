@@ -32,7 +32,7 @@ content = @`
             </form>
         <hr>
         @if(!urlDetails.getChecks().isEmpty())
-            <table class="table-secondary table-hover table-striped-raw w-75 p-3">
+            <table class="table table-bordered table-hover mt-3">
                 <thead>
                 <tr>
                     <th>Id</th>
